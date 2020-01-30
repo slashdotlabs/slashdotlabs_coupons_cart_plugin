@@ -1,0 +1,17 @@
+{
+  "name": "slashdotlabs/coupons-cart",
+  "description": "Integrates payment module into forms",
+  "type": "project",
+  "authors": [
+    {
+      "name": "Stephen Wanyee",
+      "email": "kamawanyee@gmail.com"
+    }
+  ],
+  "require": {},
+  "autoload": {
+    "psr-4": {
+      "Slash\\": "./inc"
+    }
+  }
+}

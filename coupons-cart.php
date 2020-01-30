@@ -1,5 +1,7 @@
 <?php
 /**
+ * @package           CouponsCartPlugin
+ *
  * Plugin Name:       Coupons Cart
  * Description:       Integrates payment options onto a form
  * Version:           1.0
@@ -10,7 +12,18 @@
  */
 
 // Prevent direct access
-if( !defined('ABSPATH')) {
-    echo "We don't do that here :/";
-    exit;
+defined('ABSPATH') or die("We don't do that here :/");
+
+//global plugin name
+define('SLASH_COUPON_PLUGIN_NAME', plugin_basename(__FILE__));
+
+if (file_exists(dirname(__FILE__) . '/vendor/autoload.php')) {
+    require_once dirname(__FILE__) . '/vendor/autoload.php';
+}
+
+register_activation_hook(__FILE__, [Slash\Base\Activate::class, 'run']);
+register_activation_hook(__FILE__, [Slash\Base\Deactivate::class, 'run']);
+
+if (class_exists(Slash\Init::class)) {
+    Slash\Init::register_services();
 }
