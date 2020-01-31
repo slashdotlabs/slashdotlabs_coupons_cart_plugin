@@ -3,8 +3,9 @@
 
 namespace Slash;
 
-
+use Slash\Pages\Admin;
 use Slash\Base\Enqueue;
+use Slash\Base\SettingsLink;
 
 final class Init
 {
@@ -15,7 +16,9 @@ final class Init
     public static function get_services()
     {
         return [
-            Enqueue::class
+            Admin::class,
+            Enqueue::class,
+            SettingsLink::class,   
         ];
     }
 
