@@ -18,6 +18,7 @@ final class Init
             Pages\Dashboard::class,
             MetaBoxes\CouponMetaBox::class,
             Base\ReedemForm::class,
+            Pages\Admin::class,
         ];
     }
 
