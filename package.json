@@ -1,0 +1,32 @@
+{
+  "name": "coupons-cart",
+  "version": "1.0.0",
+  "description": "WordPress plugin created to integrate a iPay payment gateway on a custom post type of coupon products",
+  "main": "index.js",
+  "scripts": {
+    "build": "postcss src/css/tailwind.css -o assets/css/slashcoupon.css",
+    "watch": "postcss src/css/tailwind.css -o assets/css/slashcoupon.css --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/steekam/slashdotlabs_coupons_cart_plugin.git"
+  },
+  "keywords": [
+    "wordpress",
+    "plugin"
+  ],
+  "author": "Stephen Wanyee",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/steekam/slashdotlabs_coupons_cart_plugin/issues"
+  },
+  "homepage": "https://github.com/steekam/slashdotlabs_coupons_cart_plugin#readme",
+  "dependencies": {
+    "postcss-cli": "^7.1.0"
+  },
+  "devDependencies": {
+    "autoprefixer": "^9.7.4",
+    "postcss": "^7.0.26",
+    "tailwindcss": "^1.1.4"
+  }
+}

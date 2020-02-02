@@ -4,8 +4,6 @@
 namespace Slash;
 
 
-use Slash\Base\Enqueue;
-
 final class Init
 {
     /**
@@ -15,7 +13,11 @@ final class Init
     public static function get_services()
     {
         return [
-            Enqueue::class
+            Base\Enqueue::class,
+            Base\SettingsLinks::class,
+            Pages\Dashboard::class,
+            MetaBoxes\CouponMetaBox::class,
+            Base\ReedemForm::class,
         ];
     }
 
