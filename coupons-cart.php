@@ -6,8 +6,8 @@
  * Description:       Integrates payment options onto a form
  * Version:           1.0
  * Requires at least: 5.2
- * Requires PHP:      ^7.0
- * Author:            Slashdot Labs Limited
+ * Requires PHP:      7.3
+ * Author:            Slash Dot Labs Limited
  * Author URI:        https://slashdotlabs.com/
  */
 
@@ -22,7 +22,7 @@ if (file_exists(dirname(__FILE__) . '/vendor/autoload.php')) {
 }
 
 register_activation_hook(__FILE__, [Slash\Base\Activate::class, 'run']);
-register_activation_hook(__FILE__, [Slash\Base\Deactivate::class, 'run']);
+register_deactivation_hook(__FILE__, [Slash\Base\Deactivate::class, 'run']);
 
 if (class_exists(Slash\Init::class)) {
     Slash\Init::register_services();
