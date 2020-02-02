@@ -1,1 +1,0 @@
-<h1> Coupon's Cart Plugin Settings </h1>
