@@ -1,0 +1,16 @@
+<div class="flex items-center">
+    <div class="flex flex-col flex-grow p-2">
+        <label for="coupon_name" class="mb-1 uppercase">Coupon Name</label>
+        <input id="coupon_name" class="flex-grow" type="text" value="{{ data.coupon_name|default('') }}" name="coupon_name" required>
+    </div>
+
+    <div class="flex flex-col p-2">
+        <label for="coupon_price" class="mb-1 uppercase">Coupon Price</label>
+        <input id="coupon_price" class="flex-grow" type="number" value="{{ data.coupon_price|default('') }}" min="0" name="coupon_price" required>
+    </div>
+
+    <div class="flex flex-col flex-grow p-2">
+        <label for="coupon_expiry_date" class="mb-1 uppercase">Expiry Date</label>
+        <input id="coupon_expiry_date" class="flex-grow" type="date" min="{{ today }}" value="{{ data.coupon_expiry_date|default('') }}" name="coupon_expiry_date" required>
+    </div>
+</div>

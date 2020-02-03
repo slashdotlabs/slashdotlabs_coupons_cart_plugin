@@ -1,10 +1,8 @@
 <?php
-/**
- * 
- * @package CouponsCartPlugin
- */
+
 
 namespace Slash\Api\Callbacks;
+
 
 use Slash\Base\BaseController;
 
@@ -14,8 +12,10 @@ class AdminCallbacks extends BaseController{
         
         return require_once("$this->plugin_path/templates/settings.php");
     }
-    public function paymentsPage(){
-        
+
+    public function paymentsPage()
+    {
+
         return require_once("$this->plugin_path/templates/payments.php");
     }
 
@@ -24,7 +24,8 @@ class AdminCallbacks extends BaseController{
         return $input;
 	}
 
-    public function ccartIpaySection(){
+    public function ccartIpaySection()
+    {
         echo '<i>Enter the Vendor ID and Hashkey issued by iPay.</i>';
     }
     public function ccartMailSection(){

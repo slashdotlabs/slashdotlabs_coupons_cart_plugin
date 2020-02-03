@@ -1,11 +1,14 @@
 <?php
+
 namespace Slash\Pages;
 
-use \Slash\Base\BaseController;
-use \Slash\Api\SettingsApi;
-use \Slash\Api\Callbacks\AdminCallbacks;
+use Slash\Api\Callbacks\AdminCallbacks;
+use Slash\Api\SettingsApi;
+use Slash\Base\BaseController;
+use \Slash\Base\Enqueue;
 
-class Admin extends BaseController {
+class Admin extends BaseController
+{
 
     public $settings;
     public $callbacks;
@@ -20,16 +23,18 @@ class Admin extends BaseController {
         $this->pages = array(
             [
                 'page_title' => 'Coupons Cart',
-                'menu_title' => 'Coupons Cart', 
-                'capability' => 'manage_options' ,
-                'menu_slug' => 'coupons_plugin', 
-                'callback' => array( $this->callbacks, 'confSettings'),
+                'menu_title' => 'Coupons Cart',
+                'capability' => 'manage_options',
+                'menu_slug' => 'coupons_plugin',
+                'callback' => array($this->callbacks, 'confSettings'),
                 'icon_url' => 'dashicons-cart',
                 'position' => 80
             ],
         );
     }
-    public function setSubPages(){
+
+    public function setSubPages()
+    {
         $this->subpages = array(
             [
                 'parent_slug' => 'coupons_plugin',
@@ -37,7 +42,7 @@ class Admin extends BaseController {
                 'menu_title' => 'Payments',
                 'capability' => 'manage_options',
                 'menu_slug' => 'ccart_pay',
-                'callback' => array( $this->callbacks, 'paymentsPage'),
+                'callback' => array($this->callbacks, 'paymentsPage'),
 
             ]
         );
@@ -52,34 +57,29 @@ class Admin extends BaseController {
                     'callback' => array( $this->callbacks, 'ccartSettingsSanitize' )
                 )
             );
-        // foreach( $this->ccart_settings as $key => $value ){
-        //     $args[] = array(
-        //         'option_group' => 'ccart_settings',
-        //         'option_name' => $key,
-        //         'callback' => array( $this->callbacks, 'ccartSettingsSanitize')
-        //     );
-        // }
         $this->settings->setSettings($args);
     }
-    public function setSections(){
+
+    public function setSections()
+    {
         $args = array(
             [
                 'id' => 'ccart_ipay_index',
                 'title' => 'iPay Settings',
-                'callback' => array( $this->callbacks, 'ccartIpaySection'),
+                'callback' => array($this->callbacks, 'ccartIpaySection'),
                 'page' => 'coupons_plugin'
-                
+
             ],
             [
                 'id' => 'ccart_mail_index',
                 'title' => 'Mailing Settings',
-                'callback' => array( $this->callbacks, 'ccartMailSection'),
+                'callback' => array($this->callbacks, 'ccartMailSection'),
                 'page' => 'coupons_plugin'
-                
+
             ],
 
         );
-        $this->settings->setSections( $args );
+        $this->settings->setSections($args);
 
     }
     public function setFields(){

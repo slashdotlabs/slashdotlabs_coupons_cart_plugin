@@ -4,11 +4,14 @@
 namespace Slash\Base;
 
 
+use Slash\Api\Twig;
+
 abstract class BaseController
 {
     public $plugin_path;
     public $plugin_url;
     public $plugin_name;
+    public $twig;
 
     public $ccart_settings = array();
         
@@ -32,6 +35,7 @@ abstract class BaseController
             ],   
         );
 
+        $this->twig = Twig::instance();
     }
 
 }

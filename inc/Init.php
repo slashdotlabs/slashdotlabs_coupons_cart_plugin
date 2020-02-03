@@ -3,9 +3,6 @@
 
 namespace Slash;
 
-use Slash\Pages\Admin;
-use Slash\Base\Enqueue;
-use Slash\Base\SettingsLink;
 
 final class Init
 {
@@ -16,9 +13,11 @@ final class Init
     public static function get_services()
     {
         return [
-            Admin::class,
-            Enqueue::class,
-            SettingsLink::class,   
+            Base\Enqueue::class,
+            Pages\Admin::class,
+            MetaBoxes\CouponMetaBox::class,
+            Base\ReedemForm::class,
+            Base\SettingsLink::class,
         ];
     }
 
@@ -29,6 +28,7 @@ final class Init
     {
         foreach (self::get_services() as $class) {
             $service = self::instantiate($class);
+
             if (method_exists($service, 'register')) {
                 $service->register();
             }
