@@ -23,6 +23,7 @@ if (file_exists(dirname(__FILE__) . '/vendor/autoload.php')) {
 
 register_activation_hook(__FILE__, [Slash\Base\Activate::class, 'run']);
 register_deactivation_hook(__FILE__, [Slash\Base\Deactivate::class, 'run']);
+register_uninstall_hook( __FILE__, [Slash\Database\Migrations::class, 'dropPaymentsTable']);
 
 if (class_exists(Slash\Init::class)) {
     Slash\Init::register_services();

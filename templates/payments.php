@@ -3,8 +3,8 @@
 
 	<?php 
 	settings_errors();
-	global $wpdb;
-	$results = $wpdb->get_results( "SELECT * FROM wp_payments" );
+
+	// TODO: Call the fetchPayments method here
 
 	?>
 
@@ -21,19 +21,21 @@
 			<th>Payment Date</th>
 
 			<?php
-			foreach ($results as $row) {
-    			echo "<tr>";
-	   				echo "<td>". $row->id ."</td>";
-			    	echo "<td>". $row->fname ."</td>";
-			    	echo "<td>". $row->lname ."</td>";
-			    	echo "<td>". $row->order_id ."</td>";
-				   	echo "<td>". $row->coupon_id ."</td>";
-				   	echo "<td>". $row->amount ."</td>";
-				   	echo "<td>". $row->transaction_ref ."</td>";
-				   	echo "<td>". $row->payment_type ."</td>";
-				  	echo "<td>". date("Y-m-d", strtotime($row->payment_date)). "</td>";
-			    echo "</tr>";
-     		}?>
+			if (!empty($results)) {
+				foreach ($results as $row) {
+	    			echo "<tr>";
+		   				echo "<td>". $row->id ."</td>";
+				    	echo "<td>". $row->fname ."</td>";
+				    	echo "<td>". $row->lname ."</td>";
+				    	echo "<td>". $row->order_id ."</td>";
+					   	echo "<td>". $row->coupon_id ."</td>";
+					   	echo "<td>". $row->amount ."</td>";
+					   	echo "<td>". $row->transaction_ref ."</td>";
+					   	echo "<td>". $row->payment_type ."</td>";
+					  	echo "<td>". date("Y-m-d", strtotime($row->payment_date)). "</td>";
+				    echo "</tr>";
+	     		}
+	     	}?>
 		</tbody>
 	</table>
 </div>
