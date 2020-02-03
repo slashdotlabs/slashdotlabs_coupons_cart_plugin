@@ -5,7 +5,9 @@
  */
 
 namespace Slash\Api;
-class SettingsApi{
+
+class SettingsApi
+{
     public $admin_pages = array();
     public $admin_subpages = array();
 
@@ -66,11 +68,12 @@ class SettingsApi{
                 $page['menu_title'], 
                 $page['capability'],
                 $page['menu_slug'],
-                $page['callback'],
+                $page['callback']
     
             );
         }
     }
+
     public function setSettings( array $settings){
         $this->settings = $settings;
         return $this;
@@ -126,4 +129,5 @@ class SettingsApi{
         } 
 
     }
+
 }

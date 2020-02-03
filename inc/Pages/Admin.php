@@ -5,6 +5,7 @@ namespace Slash\Pages;
 use Slash\Api\Callbacks\AdminCallbacks;
 use Slash\Api\SettingsApi;
 use Slash\Base\BaseController;
+use \Slash\Base\Enqueue;
 
 class Admin extends BaseController
 {
@@ -70,33 +71,12 @@ class Admin extends BaseController
 
     public function setSettings()
     {
-        //coupon settings array
         $coupon_settings = array(
             [
-                'option_group' => 'ccart_admin_group',
-                'option_name' => 'vendor_id',
-                'callback' => array($this->callbacks, 'ccartAdminGroup'),
-
+                'option_group' => 'ccart_settings_group',
+                'option_name' => 'ccart_settings',
+                'callback' => array($this->callbacks, 'ccartSettingsGroup'),
             ],
-            [
-                'option_group' => 'ccart_admin_group',
-                'option_name' => 'hashkey',
-                'callback' => array($this->callbacks, 'ccartAdminGroup'),
-
-            ],
-            [
-                'option_group' => 'ccart_admin_group',
-                'option_name' => 'address_from_name',
-                'callback' => array($this->callbacks, 'ccartAdminGroup'),
-
-            ],
-            [
-                'option_group' => 'ccart_admin_group',
-                'option_name' => 'address_from_email',
-                'callback' => array($this->callbacks, 'ccartAdminGroup'),
-
-            ],
-
         );
         $this->settings->setSettings($coupon_settings);
     }
