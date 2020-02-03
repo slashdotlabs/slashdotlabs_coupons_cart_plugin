@@ -4,7 +4,7 @@
 
     <form method="post" action="options.php">
         <?php
-            settings_fields( 'ccart_settings_group' );
+            settings_fields( 'ccart_plugin_settings' );
             do_settings_sections( 'coupons_plugin' );
             submit_button();
         ?>

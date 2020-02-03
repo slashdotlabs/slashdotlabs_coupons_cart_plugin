@@ -9,6 +9,7 @@ namespace Slash\Api\Callbacks;
 use Slash\Base\BaseController;
 
 class AdminCallbacks extends BaseController{
+
     public function confSettings(){
         
         return require_once("$this->plugin_path/templates/settings.php");
@@ -18,44 +19,30 @@ class AdminCallbacks extends BaseController{
         return require_once("$this->plugin_path/templates/payments.php");
     }
 
-    public function ccartSettingsGroup( $input ){
+    public function ccartSettingsSanitize( $input )
+	{
         return $input;
-    }
+	}
 
     public function ccartIpaySection(){
         echo '<i>Enter the Vendor ID and Hashkey issued by iPay.</i>';
     }
-    public function ccartVendorId(){
-        $value = esc_attr( get_option('vendor_id') );
-        echo '<input type="text" class ="regular-text" 
-            name="vendor_id" value=" '. $value .'" 
-            placeholder="Enter iPay Vendor ID" required>';
-            
-    }
-    public function ccartHashkey(){
-        $value = esc_attr( get_option('hashkey') );
-        echo '<input type="text" class ="regular-text" 
-            name="hashkey" value=" '. $value .'" 
-            placeholder="Enter iPay Hashkey" required>';
-            
-    }
-
     public function ccartMailSection(){
         echo '<i>Enter the username and email address that customers will receive emails from.</i>';
     }
 
-    public function ccartAddressFromEmail(){
-        $value = esc_attr( get_option('address_from_email') );
-        echo '<input type="email" class ="regular-text" 
-            name="address_from_email" value=" '. $value .'" 
-            placeholder="Enter Sender Email Address" required>';
-            
-    }
-    public function ccartAddressFromName(){
-        $value = esc_attr( get_option('address_from_name') );
-        echo '<input type="text" class ="regular-text" 
-            name="address_from_name" value=" '. $value .'" 
-            placeholder="Enter Email Sender Name" required>';
-            
-    }
+    public function ccartSettingsFields($args){
+        {
+            $name = $args['label_for'];
+            $field = $args['field'];
+            $classes = $args['class'];
+            $option_name = $args['option_name'];
+            $placeholder = $args['placeholder'];
+
+            echo '
+            <div class ="'.$classes.'">
+                <input type="text" name="'. $option_name . '['. $field . ']['. $name .']" placeholder="'. $placeholder .'" value= "" required>
+            <div>';
+            }
+        }
 }
