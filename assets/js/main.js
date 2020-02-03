@@ -39,10 +39,44 @@ const redeemCoupon = () => {
             },
             dataType: 'json'
         }).then(res => {
-            console.log(res);
-        })
+            if (!res['success']) {
+                // ?Handle error TODO:
+                console.log(res);
+                return;
+            }
+            const iframeURl = res['data']['iframeURL'];
+            handleIframe(res['data']['iframeURL']);
+        });
     });
 };
+
+const handleIframe = (url) => {
+    const iframe = $("#ipay-iframe");
+    const iframeWrapper = $('#iframe-wrapper');
+    iframe.attr('src', url);
+
+    iframe.on('load', event => {
+        const src = iframe.attr('src');
+        if(src === '') return;
+
+        // ?Show iframe wrapper
+        iframeWrapper.removeClass('hidden')
+            .prev().addClass('hidden');
+    });
+
+    // ?On payment dismiss
+    $('body').on('click', "[data-dismiss='payment']", event => {
+        event.preventDefault();
+
+        // ?Reset iframe src
+        iframe.attr('src', '');
+
+        // ?Hide iframe wrapper, show form
+        iframeWrapper.addClass('hidden')
+            .prev().removeClass('hidden');
+    });
+};
+
 jQuery(() => {
     window.$ = jQuery;
     initPhoneMask();

@@ -14,11 +14,10 @@ final class Init
     {
         return [
             Base\Enqueue::class,
-            Base\SettingsLinks::class,
-            Pages\Dashboard::class,
+            Pages\Admin::class,
             MetaBoxes\CouponMetaBox::class,
             Base\ReedemForm::class,
-            Pages\Admin::class,
+            Base\SettingsLink::class,
         ];
     }
 

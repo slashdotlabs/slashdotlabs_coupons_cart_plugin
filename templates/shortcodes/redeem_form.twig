@@ -1,46 +1,61 @@
 {% if not expired %}
-    <div class="slashcoupon-wrapper border border-gray-300 mt-6 p-6 shadow-md bg-gray-100">
-        <div class="flex justify-between items-center px-2 text-gray-800">
-            <h4 class="capitalize">Reedem coupon now!</h4>
-            <h4>Price: <span class="text-blue-500">KES {{ data.coupon_price|default('') }}</span></h4>
-        </div>
-        <form id="slash-coupon-redeem-form" action="<?= admin_url('admin-ajax.php'); ?>" onsubmit="return false;">
-            <input type="hidden" name="coupon_id" value="{{ coupon_id|default('') }}">
-            <input type="hidden" name="coupon_name" value="{{ data.coupon_name|default('') }}">
-            <input type="hidden" name="coupon_price" value="{{ data.coupon_price|default('') }}">
-            <input type="hidden" name="coupon_expiry_date" value="{{ data.coupon_expiry_date|default('') }}">
-            <div class="flex flex-col md:flex-row">
-                <div class="flex-grow flex flex-col px-2">
-                    <label for="customer_first_name" class="mb-1">First Name</label>
-                    <div class="flex">
-                        <input id="customer_first_name" class="flex-grow" name="customer_first_name" type="text" required>
-                    </div>
-                </div>
-                <div class="flex-grow flex flex-col px-2">
-                    <label for="customer_last_name" class="mb-1">Last Name</label>
-                    <div class="flex">
-                        <input id="customer_last_name" class="flex-grow" name="customer_last_name" type="text" required>
-                    </div>
-                </div>
+    <div class="slashcoupon-wrapper border border-gray-300 shadow-md bg-gray-100 opacity-75 rounded mt-6">
+        <div id="form-wrapper" class="md:p-6 px-4 py-6">
+            <div class="flex justify-between items-center px-2 text-gray-800 md:text-2xl text-lg mb-6">
+                <span class="capitalize">Reedem coupon now!</span>
+                <span>Price: <span class="text-blue-500">KES {{ data.coupon_price|default('') }}</span></span>
             </div>
-            <div class="flex flex-col md:flex-row">
-                <div class="flex-grow flex flex-col px-2">
-                    <label class="mb-1" for="customer_email">Email</label>
-                    <div class="flex">
-                        <input id="customer_email" class="flex-grow" name="customer_email" type="email" required>
+            <form id="slash-coupon-redeem-form" onsubmit="return false;">
+                <input type="hidden" name="coupon_id" value="{{ coupon_id|default('') }}">
+                <input type="hidden" name="coupon_name" value="{{ data.coupon_name|default('') }}">
+                <input type="hidden" name="coupon_price" value="{{ data.coupon_price|default('') }}">
+                <input type="hidden" name="coupon_expiry_date" value="{{ data.coupon_expiry_date|default('') }}">
+                <div class="flex flex-col md:flex-row">
+                    <div class="flex-grow flex flex-col px-2">
+                        <label for="customer_first_name" class="mb-1">First Name</label>
+                        <div class="flex">
+                            <input id="customer_first_name" class="flex-grow" name="customer_first_name" type="text" required>
+                        </div>
+                    </div>
+                    <div class="flex-grow flex flex-col px-2">
+                        <label for="customer_last_name" class="mb-1">Last Name</label>
+                        <div class="flex">
+                            <input id="customer_last_name" class="flex-grow" name="customer_last_name" type="text" required>
+                        </div>
                     </div>
                 </div>
-                <div class="flex-grow flex flex-col px-2">
-                    <label class="mb-1" for="customer_phone_number">Phone Number</label>
-                    <div class="flex">
-                        <input id="customer_phone_number" class="flex-grow phone-mask" name="customer_phone_number" type="text" placeholder="2547xxxxxxxx" required>
+                <div class="flex flex-col md:flex-row">
+                    <div class="flex-grow flex flex-col px-2">
+                        <label class="mb-1" for="customer_email">Email</label>
+                        <div class="flex">
+                            <input id="customer_email" class="flex-grow" name="customer_email" type="email" required>
+                        </div>
+                    </div>
+                    <div class="flex-grow flex flex-col px-2">
+                        <label class="mb-1" for="customer_phone_number">Phone Number</label>
+                        <div class="flex">
+                            <input id="customer_phone_number" class="flex-grow phone-mask" name="customer_phone_number" type="text" placeholder="2547xxxxxxxx" required>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="flex justify-end px-2">
-                <button class="border-none outline-none shadow-none bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 hover:shadow-none capitalize">Redeem Coupon</button>
+                <div class="flex justify-end px-2">
+                    <button class="border-none outline-none shadow-none bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 hover:shadow-none capitalize">Redeem Coupon</button>
+                </div>
+            </form>
+        </div>
+
+        <div id="iframe-wrapper" class="flex flex-col hidden">
+            <div class="border-b border-gray-400 p-4  text-gray-700 flex justify-between items-end">
+                <span class="text-lg uppercase text-gray-700">Coupon Payment</span>
+                <span class="text-2xl cursor-pointer" title="Dismiss payment" data-dismiss="payment">x</span>
             </div>
-        </form>
+            <div class="flex-grow">
+                <iframe src="" class="w-full min-h-screen" id="ipay-iframe"></iframe>
+            </div>
+            <div class="border-t border-gray-400 p-2 flex justify-end items-center">
+                <button class="border-none outline-none shadow-none text-black py-2 px-4 rounded bg-gray-400 hover:bg-gray-500 hover:shadow-none" title="Dismiss payment" data-dismiss="payment">Cancel</button>
+            </div>
+        </div>
     </div>
 {% endif %}
