@@ -19,9 +19,7 @@ final class Init
         return [
 
             Enqueue::class,
-            Submissions::class,
             Admin::class,
-            Enqueue::class,
             SettingsLink::class,   
         ];
     }

@@ -4,6 +4,7 @@ namespace Slash\Pages;
 use \Slash\Base\BaseController;
 use \Slash\Api\SettingsApi;
 use \Slash\Api\Callbacks\AdminCallbacks;
+use \Slash\Base\Enqueue;
 
 class Admin extends BaseController {
 
