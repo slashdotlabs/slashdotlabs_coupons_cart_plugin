@@ -39,6 +39,5 @@
 </div>
 
 
-
-
-
+<!-- TODO: declare datatables html and php here ??
+ajax functionality in myscript.js file -->
