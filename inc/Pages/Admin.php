@@ -16,31 +16,10 @@ class Admin extends BaseController
     public $pages = array();
     public $subpages = array();
 
-    public function __construct()
-    {
-        parent::__construct();
-        $this->settings = new SettingsApi();
-        $this->callbacks = new AdminCallbacks();
-    }
+    
 
-    public function register()
-    {
-        $this->setPages();
-        $this->setSubPages();
-
-        $this->setSettings();
-        $this->setSections();
-        $this->setFields();
-
-        $this->settings->addPages($this->pages)
-            ->withSubPage('Configuration Settings')
-            ->addSubPages($this->subpages)
-            ->register();
-    }
-
-    public function setPages()
-    {
-
+    public function setPages(){
+        
         $this->pages = array(
             [
                 'page_title' => 'Coupons Cart',
@@ -69,16 +48,16 @@ class Admin extends BaseController
         );
     }
 
-    public function setSettings()
-    {
-        $coupon_settings = array(
-            [
-                'option_group' => 'ccart_settings_group',
-                'option_name' => 'ccart_settings',
-                'callback' => array($this->callbacks, 'ccartSettingsGroup'),
-            ],
-        );
-        $this->settings->setSettings($coupon_settings);
+    
+    public function setSettings(){
+            $args = array(
+                array(
+                    'option_group' => 'ccart_plugin_settings',
+                    'option_name' => 'coupons_plugin',
+                    'callback' => array( $this->callbacks, 'ccartSettingsSanitize' )
+                )
+            );
+        $this->settings->setSettings($args);
     }
 
     public function setSections()
@@ -103,63 +82,59 @@ class Admin extends BaseController
         $this->settings->setSections($args);
 
     }
-
-    public function setFields()
-    {
-        $args = array(
-            [
-                'id' => 'vendor_id',
-                'title' => 'Vendor ID',
-                'callback' => array($this->callbacks, 'ccartVendorId'),
+    public function setFields(){
+        $args = array();
+        foreach( $this->ccart_settings['ipay'] as $key => $value ){
+            $args[] = array(
+                'id' => $key,
+                'title' => $value[0],
+                'callback' => array( $this->callbacks, 'ccartSettingsFields'),
                 'page' => 'coupons_plugin',
                 'section' => 'ccart_ipay_index',
                 'args' => array(
-                    'label_for' => 'vendor_id',
+                    'label_for' => $key,
+                    'placeholder'=> $value[1],
                     'class' => 'example-class',
-
+                    'field' => 'ipay',
+                    'option_name' => 'coupons_plugin',    
                 )
-
-            ],
-            [
-                'id' => 'hashkey',
-                'title' => 'Hash Key',
-                'callback' => array($this->callbacks, 'ccartHashkey'),
-                'page' => 'coupons_plugin',
-                'section' => 'ccart_ipay_index',
-                'args' => array(
-                    'label_for' => 'hashkey',
-                    'class' => 'example-class',
-
-                )
-
-            ],
-            [
-                'id' => 'address_from_name',
-                'title' => 'Sender Username',
-                'callback' => array($this->callbacks, 'ccartAddressFromName'),
+            );
+        }
+        foreach( $this->ccart_settings['mail'] as $key => $value ){
+            $args[] = array(
+                'id' => $key,
+                'title' => $value[0],
+                'callback' => array( $this->callbacks, 'ccartSettingsFields'),
                 'page' => 'coupons_plugin',
                 'section' => 'ccart_mail_index',
                 'args' => array(
-                    'label_for' => 'address_from_name',
+                    'label_for' => $key,
+                    'placeholder'=> $value[1],
+                    'field' => 'mail',
                     'class' => 'example-class',
-
+                    'option_name' => 'coupons_plugin',
                 )
-
-            ],
-            [
-                'id' => 'address_from_email',
-                'title' => 'Sender Email Address',
-                'callback' => array($this->callbacks, 'ccartAddressFromEmail'),
-                'page' => 'coupons_plugin',
-                'section' => 'ccart_mail_index',
-                'args' => array(
-                    'label_for' => 'address_from_email',
-                    'class' => 'example-class',
-
-                )
-
-            ],
-        );
-        $this->settings->setFields($args);
+            );
+        }
+        $this->settings->setFields( $args );
     }
+
+    public function register(){
+
+        $this->settings = new SettingsApi();
+        $this->callbacks = new AdminCallbacks();
+
+        $this->setPages();
+        $this->setSubPages();
+
+        $this->setSettings();
+        $this->setSections();
+        $this->setFields();
+
+        $this->settings->addPages( $this->pages )
+                        ->withSubPage('Configuration Settings')
+                        ->addSubPages( $this->subpages)
+                        ->register();
+    }
+ 
 }
