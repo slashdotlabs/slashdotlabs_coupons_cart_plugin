@@ -1,5 +1,10 @@
 <?php
 
-defined('WP_UNISTALL_PLUGIN') or die('We don\'t do that here :/');
+if( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) exit();
 
-// TODO: handle on delete
+if (file_exists(dirname(__FILE__) . '/vendor/autoload.php')) {
+    require_once dirname(__FILE__) . '/vendor/autoload.php';
+}
+
+// Drop the Payments table
+Slash\Database\Migrations::dropPaymentsTable();
