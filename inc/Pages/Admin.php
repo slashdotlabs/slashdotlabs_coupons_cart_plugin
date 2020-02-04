@@ -5,7 +5,6 @@ namespace Slash\Pages;
 use Slash\Api\Callbacks\AdminCallbacks;
 use Slash\Api\SettingsApi;
 use Slash\Base\BaseController;
-use \Slash\Base\Enqueue;
 
 class Admin extends BaseController
 {
@@ -16,10 +15,31 @@ class Admin extends BaseController
     public $pages = array();
     public $subpages = array();
 
-    
+    public function __construct()
+    {
+        parent::__construct();
+        $this->settings = new SettingsApi();
+        $this->callbacks = new AdminCallbacks();
+    }
 
-    public function setPages(){
-        
+    public function register()
+    {
+        $this->setPages();
+        $this->setSubPages();
+
+        $this->setSettings();
+        $this->setSections();
+        $this->setFields();
+
+        $this->settings->addPages($this->pages)
+            ->withSubPage('Configuration Settings')
+            ->addSubPages($this->subpages)
+            ->register();
+    }
+
+    public function setPages()
+    {
+
         $this->pages = array(
             [
                 'page_title' => 'Coupons Cart',
@@ -48,15 +68,15 @@ class Admin extends BaseController
         );
     }
 
-    
-    public function setSettings(){
-            $args = array(
-                array(
-                    'option_group' => 'ccart_plugin_settings',
-                    'option_name' => 'coupons_plugin',
-                    'callback' => array( $this->callbacks, 'ccartSettingsSanitize' )
-                )
-            );
+    public function setSettings()
+    {
+        $args = array(
+            array(
+                'option_group' => 'ccart_plugin_settings',
+                'option_name' => 'coupons_plugin',
+                'callback' => array($this->callbacks, 'ccartSettingsSanitize')
+            )
+        );
         $this->settings->setSettings($args);
     }
 
@@ -82,59 +102,43 @@ class Admin extends BaseController
         $this->settings->setSections($args);
 
     }
-    public function setFields(){
+
+    public function setFields()
+    {
         $args = array();
-        foreach( $this->ccart_settings['ipay'] as $key => $value ){
+        foreach ($this->ccart_settings['ipay'] as $key => $value) {
             $args[] = array(
                 'id' => $key,
                 'title' => $value[0],
-                'callback' => array( $this->callbacks, 'ccartSettingsFields'),
+                'callback' => array($this->callbacks, 'ccartSettingsFields'),
                 'page' => 'coupons_plugin',
                 'section' => 'ccart_ipay_index',
                 'args' => array(
                     'label_for' => $key,
-                    'placeholder'=> $value[1],
+                    'placeholder' => $value[1],
                     'class' => 'example-class',
                     'field' => 'ipay',
-                    'option_name' => 'coupons_plugin',    
+                    'option_name' => 'coupons_plugin',
                 )
             );
         }
-        foreach( $this->ccart_settings['mail'] as $key => $value ){
+        foreach ($this->ccart_settings['mail'] as $key => $value) {
             $args[] = array(
                 'id' => $key,
                 'title' => $value[0],
-                'callback' => array( $this->callbacks, 'ccartSettingsFields'),
+                'callback' => array($this->callbacks, 'ccartSettingsFields'),
                 'page' => 'coupons_plugin',
                 'section' => 'ccart_mail_index',
                 'args' => array(
                     'label_for' => $key,
-                    'placeholder'=> $value[1],
+                    'placeholder' => $value[1],
                     'field' => 'mail',
                     'class' => 'example-class',
                     'option_name' => 'coupons_plugin',
                 )
             );
         }
-        $this->settings->setFields( $args );
+        $this->settings->setFields($args);
     }
 
-    public function register(){
-
-        $this->settings = new SettingsApi();
-        $this->callbacks = new AdminCallbacks();
-
-        $this->setPages();
-        $this->setSubPages();
-
-        $this->setSettings();
-        $this->setSections();
-        $this->setFields();
-
-        $this->settings->addPages( $this->pages )
-                        ->withSubPage('Configuration Settings')
-                        ->addSubPages( $this->subpages)
-                        ->register();
-    }
- 
 }

@@ -21,6 +21,7 @@ class Enqueue extends BaseController
         wp_enqueue_style('slash-coupon-plugin-style', $this->plugin_url . 'assets/admin.css');
         wp_enqueue_script('slash-coupon-plugin-script', $this->plugin_url . 'assets/admin.js');
 
+        // Only in post new and post edit page
         $query = $_SERVER['REQUEST_URI'];
         $parts = explode('/', $query);
         $file = explode('?', end($parts))[0];
@@ -30,11 +31,14 @@ class Enqueue extends BaseController
             wp_enqueue_style('slash-coupon-plugin-tailwind', $this->plugin_url . 'assets/css/slashcoupon.css');
         }
 
-        // datatables scripts
-        wp_enqueue_style('dataTables-css', 'https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css');
-        wp_enqueue_script('dataTables-js', 'https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js');
-        wp_enqueue_script('custom-datatables', $this->plugin_url.'assets/custom_datatables.js');
 
+        // Only in payments page
+        if (array_key_exists('page', $_GET) && $_GET['page'] === "ccart_pay") {
+            // datatables scripts
+            wp_enqueue_style('dataTables-css', 'https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css');
+            wp_enqueue_script('dataTables-js', 'https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js');
+            wp_enqueue_script('custom-datatables', $this->plugin_url.'assets/custom_datatables.js');
+        }
     }
 
     public function enqueue_front_scripts()
