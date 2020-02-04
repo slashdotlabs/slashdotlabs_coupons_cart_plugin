@@ -16,8 +16,6 @@ class Admin extends BaseController
     public $pages = array();
     public $subpages = array();
 
-    
-
     public function setPages(){
         
         $this->pages = array(
@@ -54,7 +52,7 @@ class Admin extends BaseController
                 array(
                     'option_group' => 'ccart_plugin_settings',
                     'option_name' => 'coupons_plugin',
-                    'callback' => array( $this->callbacks, 'ccartSettingsSanitize' )
+                    'callback' => array( $this->callbacks, 'ccartSettingsValidate')
                 )
             );
         $this->settings->setSettings($args);
@@ -77,6 +75,13 @@ class Admin extends BaseController
                 'page' => 'coupons_plugin'
 
             ],
+            [
+                'id' => 'ccart_smtp_index',
+                'title' => 'SMTP Settings',
+                'callback' => array($this->callbacks, 'ccartSMTPSection'),
+                'page' => 'coupons_plugin'
+
+            ],
 
         );
         $this->settings->setSections($args);
@@ -94,8 +99,8 @@ class Admin extends BaseController
                 'args' => array(
                     'label_for' => $key,
                     'placeholder'=> $value[1],
-                    'class' => 'example-class',
                     'field' => 'ipay',
+                    'class' =>'example-class',
                     'option_name' => 'coupons_plugin',    
                 )
             );
@@ -109,10 +114,28 @@ class Admin extends BaseController
                 'section' => 'ccart_mail_index',
                 'args' => array(
                     'label_for' => $key,
-                    'placeholder'=> $value[1],
                     'field' => 'mail',
-                    'class' => 'example-class',
+                    'placeholder'=> $value[1],
                     'option_name' => 'coupons_plugin',
+                    'class' =>'example-class',
+                )
+            );
+        }
+        // TODO: SET RADIO BUTTON/ OPTION FIELD FOR ENCRYPTION VALUE
+        
+        foreach( $this->ccart_settings['smtp'] as $key => $value ){
+            $args[] = array(
+                'id' => $key,
+                'title' => $value[0],
+                'callback' => array( $this->callbacks, 'ccartSettingsFields'),
+                'page' => 'coupons_plugin',
+                'section' => 'ccart_smtp_index',
+                'args' => array(
+                    'label_for' => $key,
+                    'field' => 'smtp',
+                    'placeholder'=> $value[1],
+                    'option_name' => 'coupons_plugin',
+                    'class' =>'example-class',
                 )
             );
         }
