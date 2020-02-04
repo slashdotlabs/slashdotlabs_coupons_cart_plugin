@@ -3,20 +3,27 @@
 
 namespace Slash\Api;
 
+use Exception;
+use Slash\Base\BaseController;
+use Slash\Database\PaymentsModel;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
-final class IpayGateway
+
+class IpayGateway extends BaseController
 {
-    public static function retriveUrl($meta_data=null)
+    public static function retriveUrl($meta_data = null)
     {
         if (!$meta_data) return false;
 
         $live = "0";
         // Retrieve vid and hashkey from options TODO: option_name = ccart_settings
-        $vid = "slashdot"; //"demo";
-        $hashkey = "S1@shD0T!@bz";//"demo";
+        $vid = "demo";//"slashdot";
+        $hashkey = "demoCHANGED";//"S1@shD0T!@bz";
 
         $ipay_base_url = "https://payments.ipayafrica.com/v3/ke";
-        $fields =[
+        $fields = [
             "live" => $live,
             "oid" => $meta_data['order_id'],
             "inv" => null,
@@ -38,7 +45,7 @@ final class IpayGateway
         $datastring = implode("", $fields);
 
         // generate hash
-        $generated_hash = hash_hmac('sha1',$datastring , $hashkey);
+        $generated_hash = hash_hmac('sha1', $datastring, $hashkey);
 
         $fields['hsh'] = $generated_hash;
 
@@ -49,21 +56,64 @@ final class IpayGateway
         $fields['autopay'] = "1";
 
         $fields_string = array_map(function ($value, $key) {
-            return $key.'='.$value;
+            return $key . '=' . $value;
         }, array_values($fields), array_keys($fields));
         $fields_string = implode("&", $fields_string);
 
-        // TODO: Log only during development
-
-        return $ipay_base_url.'?'.$fields_string;
+        return $ipay_base_url . '?' . $fields_string;
     }
 
+    /**
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     */
+    public function payment_cb_handler()
+    {
+        try {
+            $response = $_GET;
+
+            if (empty($response)) return;
+
+//            $logger = new Logger();
+//            $logger->log(json_encode(['fields_return' => $response]));
+
+            $status_res = $this->get_status_state($response['status']);
+            // Update transaction
+            $update_data = [
+                'status' => $status_res['process'] ? 'completed' : 'cancelled',
+                'amount' => $response['mc'],
+                'transaction_ref' => $response['txncd'],
+                'payment_type' => $response['channel'],
+                'payment_date' => date('Y-m-d'),
+            ];
+            $paymentModel = new PaymentsModel();
+            $updated = $paymentModel->update($update_data, ['order_id' => $response['id']]);
+            if ($updated === false) throw new Exception('Could not process request');
+
+            // Fetch whole payment record
+            $record = $paymentModel->getByOrderId($response['id']);
+
+            if (!$status_res['process']) throw new Exception($status_res['state']);
+
+            // TODO: Send email to customer about coupon
+
+            echo $this->twig->render('partials/payment_success.twig',
+                [
+                    'coupon' => $record->customer_coupon,
+                    'email' => $record->email
+                ]);
+        } catch (Exception $exception) {
+            echo $this->twig->render('partials/payment_error.twig', [ 'content' => $exception->getMessage()]);
+        }
+        exit;
+    }
 
     /**
      * @param $code string Status code from iPay redirct
      * @return mixed
      */
-    public static function get_status_state($code)
+    public function get_status_state($code)
     {
         $state = '';
         $process = false;
@@ -72,7 +122,7 @@ final class IpayGateway
                 $state = 'Failed transaction';
                 break;
             case 'aei7p7yrx4ae34':
-                $state  = 'Success';
+                $state = 'Success';
                 $process = true;
                 break;
             case 'bdi6p2yy76etrs':
@@ -88,6 +138,6 @@ final class IpayGateway
                 $state = 'The amount that you have sent via mobile money is MORE than what was required to validate this transaction.';
 
         }
-        return ['process'=>$process, 'state' => $state];
+        return ['process' => $process, 'state' => $state];
     }
 }

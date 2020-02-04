@@ -8,3 +8,7 @@ if (file_exists(dirname(__FILE__) . '/vendor/autoload.php')) {
 
 // Drop the Payments table
 Slash\Database\Migrations::dropPaymentsTable();
+
+// Clear coupon data in posts
+
+// Clear plugin options
