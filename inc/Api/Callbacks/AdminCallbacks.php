@@ -3,7 +3,7 @@
 
 namespace Slash\Api\Callbacks;
 
-
+use Slash\Database\PaymentsModel;
 use Slash\Base\BaseController;
 
 class AdminCallbacks extends BaseController{
@@ -15,8 +15,9 @@ class AdminCallbacks extends BaseController{
 
     public function paymentsPage()
     {
-
-        return require_once("$this->plugin_path/templates/payments.php");
+        $paymentModel = new PaymentsModel();
+        $payments = $paymentModel->fetchPayments();
+        echo $this->twig->render('payments.php', ['payments' => $payments]);
     }
 
     public function ccartSettingsSanitize( $input )

@@ -1,45 +1,40 @@
 <div class="wrap">
 	<h1> Coupon Payments </h1>
 
-	<?php 
-	settings_errors();
-
-	// TODO: Call the fetchPayments method here
-
-	?>
-
-	<table id="paymentsTable" class="display compact" style="width:100%">
-		<tbody>
+	<?php settings_errors();?>
+	
+	<table id="paymentsTable" class="display compact" style="width:100%;">
+		<thead>
 			<th>ID</th>
 			<th>First Name</th>
 			<th>Last Name</th>
+			<th>Email</th>
+			<th>Phone</th>
 			<th>Order ID</th>
 			<th>Coupon ID</th>
 			<th>Amount</th>
 			<th>Transaction Ref</th>
 			<th>Payment Type</th>
 			<th>Payment Date</th>
-
-			<?php
-			if (!empty($results)) {
-				foreach ($results as $row) {
-	    			echo "<tr>";
-		   				echo "<td>". $row->id ."</td>";
-				    	echo "<td>". $row->fname ."</td>";
-				    	echo "<td>". $row->lname ."</td>";
-				    	echo "<td>". $row->order_id ."</td>";
-					   	echo "<td>". $row->coupon_id ."</td>";
-					   	echo "<td>". $row->amount ."</td>";
-					   	echo "<td>". $row->transaction_ref ."</td>";
-					   	echo "<td>". $row->payment_type ."</td>";
-					  	echo "<td>". date("Y-m-d", strtotime($row->payment_date)). "</td>";
-				    echo "</tr>";
-	     		}
-	     	}?>
+			<th>Status</th>
+		</thead>
+		<tbody>
+			{% for payment in payments  %}
+				<tr>
+					<td>{{ payment.id }}</td>
+					<td>{{ payment.fname }}</td>
+					<td>{{ payment.lname }}</td>
+					<td>{{ payment.email }}</td>
+					<td>{{ payment.phone }}</td>
+					<td>{{ payment.order_id }}</td>
+					<td>{{ payment.coupon_id }}</td>
+					<td>{{ payment.amount }}</td>
+					<td>{{ payment.transaction_ref }}</td>
+					<td>{{ payment.payment_type }}</td>
+					<td>{{ payment.payment_date }}</td>
+					<td>{{ payment.status }}</td>
+				</tr>
+			{% endfor %}			
 		</tbody>
 	</table>
 </div>
-
-
-<!-- TODO: declare datatables html and php here ??
-ajax functionality in myscript.js file -->

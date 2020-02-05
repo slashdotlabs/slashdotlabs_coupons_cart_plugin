@@ -2,6 +2,7 @@
 /**
 * @package           CouponsCartPlugin
 */
+
 namespace Slash\Database;
 
 class PaymentsModel
@@ -9,6 +10,6 @@ class PaymentsModel
 	public function fetchPayments()
 	{
 		global $wpdb;
-		$results = $wpdb->get_results( "SELECT * FROM wp_payments" );
+		return $wpdb->get_results( "SELECT * FROM wp_payments" );
 	}
 }
