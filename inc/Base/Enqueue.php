@@ -35,8 +35,12 @@ class Enqueue extends BaseController
         // Only in payments page
         if (array_key_exists('page', $_GET) && $_GET['page'] === "ccart_pay") {
             // datatables scripts
-            wp_enqueue_style('dataTables-css', 'https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css');
+            wp_enqueue_style('dataTables-css', 'https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap.min.css');
+            wp_enqueue_style('bootstap-css', 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css');
             wp_enqueue_script('dataTables-js', 'https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js');
+            wp_enqueue_script('bootstrap-js', 'https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap.min.js');
+            wp_enqueue_script('jquery', 'https://code.jquery.com/jquery-3.3.1.js');
+            
             wp_enqueue_script('custom-datatables', $this->plugin_url.'assets/custom_datatables.js');
         }
     }
