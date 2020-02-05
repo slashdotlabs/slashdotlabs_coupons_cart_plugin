@@ -16,9 +16,6 @@ class ReedemForm extends BaseController
 
     public function register()
     {
-        // shortcode TODO: remove this
-        add_shortcode('slash_coupon_redeem_form', [$this, 'activate']);
-
         // Hook form on every post display
         add_filter('the_content', [$this, 'hook_redeem_form']);
 
@@ -29,16 +26,6 @@ class ReedemForm extends BaseController
         // Hook code to handle payment callback on each post page
         add_action('wp_head', [$this, 'payment_cb_handler']);
 
-    }
-
-    /**
-     * @throws LoaderError
-     * @throws RuntimeError
-     * @throws SyntaxError
-     */
-    function activate()
-    {
-        echo $this->twig->render('shortcodes/redeem_form.twig');
     }
 
     /**

@@ -13,14 +13,22 @@ use Twig\Error\SyntaxError;
 
 class IpayGateway extends BaseController
 {
-    public static function retriveUrl($meta_data = null)
-    {
-        if (!$meta_data) return false;
+    private $paymentModel;
 
-        $live = "0";
-        // Retrieve vid and hashkey from options TODO: option_name = ccart_settings
-        $vid = "demo";//"slashdot";
-        $hashkey = "demoCHANGED";//"S1@shD0T!@bz";
+    public function __construct()
+    {
+        parent::__construct();
+        $this->paymentModel = new PaymentsModel();
+    }
+
+    public static function retriveUrl(array $meta_data)
+    {
+        // Retrieve vid and hashkey from options
+        $ipay_options = self::get_ipay_options();
+
+        $live = $ipay_options['live'] ?? "0";
+        $vid = $ipay_options['vendor_id'];
+        $hashkey = $ipay_options['hashkey'];
 
         $ipay_base_url = "https://payments.ipayafrica.com/v3/ke";
         $fields = [
@@ -63,6 +71,14 @@ class IpayGateway extends BaseController
         return $ipay_base_url . '?' . $fields_string;
     }
 
+    private static function get_ipay_options()
+    {
+        // Get saved options
+        $plugin_options = get_option('coupons_plugin');
+        if (!$plugin_options) return false;
+        return $plugin_options['ipay'] ?? false;
+    }
+
     /**
      * @throws LoaderError
      * @throws RuntimeError
@@ -78,6 +94,10 @@ class IpayGateway extends BaseController
 //            $logger = new Logger();
 //            $logger->log(json_encode(['fields_return' => $response]));
 
+            // Check if payment is already processed
+            $record = $this->paymentModel->getByOrderId($response['id']);
+            if($record->status !== "initiated") throw new Exception("Your coupon payment is already processed. You can exit this window now :)");
+
             $status_res = $this->get_status_state($response['status']);
             // Update transaction
             $update_data = [
@@ -87,24 +107,25 @@ class IpayGateway extends BaseController
                 'payment_type' => $response['channel'],
                 'payment_date' => date('Y-m-d'),
             ];
-            $paymentModel = new PaymentsModel();
-            $updated = $paymentModel->update($update_data, ['order_id' => $response['id']]);
+            $updated = $this->paymentModel->update($update_data, ['order_id' => $response['id']]);
             if ($updated === false) throw new Exception('Could not process request');
 
             // Fetch whole payment record
-            $record = $paymentModel->getByOrderId($response['id']);
+            $record = $this->paymentModel->getByOrderId($response['id']);
 
             if (!$status_res['process']) throw new Exception($status_res['state']);
 
-            // TODO: Send email to customer about coupon
+            $email_sent = $this->send_customer_email($record);
+            if (!$email_sent) throw new Exception("Error forwarding customer coupon email");
 
             echo $this->twig->render('partials/payment_success.twig',
                 [
+                    'name' => $record->fname." ".$record->lname,
                     'coupon' => $record->customer_coupon,
                     'email' => $record->email
                 ]);
         } catch (Exception $exception) {
-            echo $this->twig->render('partials/payment_error.twig', [ 'content' => $exception->getMessage()]);
+            echo $this->twig->render('partials/payment_error.twig', ['content' => $exception->getMessage()]);
         }
         exit;
     }
@@ -139,5 +160,29 @@ class IpayGateway extends BaseController
 
         }
         return ['process' => $process, 'state' => $state];
+    }
+
+    /**
+     * @param  $record
+     * @return bool
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     */
+    private function send_customer_email($record)
+    {
+        $customer_fullname = $record->fname . " " . $record->lname;
+        $to = $record->email;
+        $subject = "$customer_fullname, your coupon {$record->customer_coupon} is ready";
+        $message = $this->twig->render("mail/customer_coupon.twig",
+            [
+                "record" => $record,
+                "year" => date("Y"),
+                "copy_url" => "medios.co.ke",
+                "copy_name" => "MEDIOS LIMITED",
+                "copy_address" => "Suite 108, Blue Violets Plaza, Kindaruma Road. Nairobi"
+            ]);
+        $headers = ['Content-Type: text/html; charset=UTF-8'];
+        return wp_mail($to, $subject, $message, $headers);
     }
 }

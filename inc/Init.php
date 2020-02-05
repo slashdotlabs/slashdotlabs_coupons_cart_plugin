@@ -4,6 +4,8 @@
 namespace Slash;
 
 
+use Slash\Api\Mailer;
+
 final class Init
 {
     /**
@@ -18,6 +20,7 @@ final class Init
             MetaBoxes\CouponMetaBox::class,
             Base\ReedemForm::class,
             Base\SettingsLink::class,
+            Base\Mailer::class,
         ];
     }
 

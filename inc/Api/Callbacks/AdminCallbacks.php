@@ -67,7 +67,7 @@ class AdminCallbacks extends BaseController{
         $option_name = $args['option_name'];
         $placeholder = $args['placeholder'];
         $settings = (array) get_option($option_name);
-        $value = esc_attr( $settings[$field][$name] );
+        $value = esc_attr( $settings[$field][$name] ?? '' );
         echo '
             <input type="text" name="'. $option_name . '['. $field . ']['. $name .']" placeholder="'. $placeholder .'" value= "'.$value.'" required>
         ';

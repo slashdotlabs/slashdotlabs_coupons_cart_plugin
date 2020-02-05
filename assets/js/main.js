@@ -26,7 +26,6 @@ const redeemCoupon = () => {
             .forEach(field => {
                 data[field['name']] = field['value'];
             });
-        // TODO:
 
         // fetch iframe url
         $.ajax({
