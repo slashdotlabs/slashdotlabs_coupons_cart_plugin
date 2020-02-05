@@ -1,9 +1,10 @@
 <div class="wrap">
 	<h1> Coupon Payments </h1>
+	<br>
 
 	<?php settings_errors();?>
 
-	<table id="paymentsTable" class="display compact" style="width:100%;">
+	<table id="paymentsTable" class="table table-striped table-bordered" style="width:100%;">
 		<thead>
 			<th>ID</th>
 			<th>First Name</th>
@@ -11,7 +12,6 @@
 			<th>Email</th>
 			<th>Phone</th>
 			<th>Order ID</th>
-			<th>Coupon ID</th>
 			<th>Amount</th>
 			<th>Transaction Ref</th>
 			<th>Payment Type</th>
@@ -28,7 +28,6 @@
 					<td>{{ payment.email }}</td>
 					<td>{{ payment.phone }}</td>
 					<td>{{ payment.order_id }}</td>
-					<td>{{ payment.coupon_id }}</td>
 					<td>{{ payment.amount }}</td>
 					<td>{{ payment.transaction_ref }}</td>
 					<td>{{ payment.payment_type }}</td>
