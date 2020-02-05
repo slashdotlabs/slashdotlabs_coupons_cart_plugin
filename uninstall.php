@@ -9,6 +9,13 @@ if (file_exists(dirname(__FILE__) . '/vendor/autoload.php')) {
 // Drop the Payments table
 Slash\Database\Migrations::dropPaymentsTable();
 
-// Clear coupon data in posts
-
 // Clear plugin options
+delete_option("coupons_plugin");
+
+// Clear coupon data in posts
+$posts = get_posts([
+    'numberposts' => -1
+]);
+array_walk($posts, function ($post, $index) {
+    delete_post_meta($post->ID, 'slash_coupon_data');
+});
