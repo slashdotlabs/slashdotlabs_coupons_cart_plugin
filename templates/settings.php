@@ -1,4 +1,4 @@
-<div class="wrap">
+<div class = "wrap">
     <h1> Configuration Settings </h1>
     <?php settings_errors(); ?>
 
@@ -9,5 +9,4 @@
             submit_button();
         ?>
     </form>
-
 </div>

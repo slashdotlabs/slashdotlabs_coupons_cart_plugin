@@ -5,7 +5,6 @@ namespace Slash\Pages;
 use Slash\Api\Callbacks\AdminCallbacks;
 use Slash\Api\SettingsApi;
 use Slash\Base\BaseController;
-use \Slash\Base\Enqueue;
 
 class Admin extends BaseController
 {
@@ -16,10 +15,31 @@ class Admin extends BaseController
     public $pages = array();
     public $subpages = array();
 
-    
+    public function __construct()
+    {
+        parent::__construct();
+        $this->settings = new SettingsApi();
+        $this->callbacks = new AdminCallbacks();
+    }
 
-    public function setPages(){
-        
+    public function register()
+    {
+        $this->setPages();
+        $this->setSubPages();
+
+        $this->setSettings();
+        $this->setSections();
+        $this->setFields();
+
+        $this->settings->addPages($this->pages)
+            ->withSubPage('Configuration Settings')
+            ->addSubPages($this->subpages)
+            ->register();
+    }
+
+    public function setPages()
+    {
+
         $this->pages = array(
             [
                 'page_title' => 'Coupons Cart',
@@ -54,7 +74,7 @@ class Admin extends BaseController
                 array(
                     'option_group' => 'ccart_plugin_settings',
                     'option_name' => 'coupons_plugin',
-                    'callback' => array( $this->callbacks, 'ccartSettingsSanitize' )
+                    'callback' => array( $this->callbacks, 'ccartSettingsValidate')
                 )
             );
         $this->settings->setSettings($args);
@@ -77,64 +97,73 @@ class Admin extends BaseController
                 'page' => 'coupons_plugin'
 
             ],
+            [
+                'id' => 'ccart_smtp_index',
+                'title' => 'SMTP Settings',
+                'callback' => array($this->callbacks, 'ccartSMTPSection'),
+                'page' => 'coupons_plugin'
+
+            ],
 
         );
         $this->settings->setSections($args);
 
     }
-    public function setFields(){
+
+    public function setFields()
+    {
         $args = array();
-        foreach( $this->ccart_settings['ipay'] as $key => $value ){
+        foreach ($this->ccart_settings['ipay'] as $key => $value) {
             $args[] = array(
                 'id' => $key,
                 'title' => $value[0],
-                'callback' => array( $this->callbacks, 'ccartSettingsFields'),
+                'callback' => array($this->callbacks, 'ccartSettingsFields'),
                 'page' => 'coupons_plugin',
                 'section' => 'ccart_ipay_index',
                 'args' => array(
                     'label_for' => $key,
                     'placeholder'=> $value[1],
-                    'class' => 'example-class',
                     'field' => 'ipay',
+                    'class' =>'example-class',
                     'option_name' => 'coupons_plugin',    
                 )
             );
         }
-        foreach( $this->ccart_settings['mail'] as $key => $value ){
+        foreach ($this->ccart_settings['mail'] as $key => $value) {
+            $args[] = array(
+                'id' => $key,
+                'title' => $value[0],
+                'callback' => array($this->callbacks, 'ccartSettingsFields'),
+                'page' => 'coupons_plugin',
+                'section' => 'ccart_mail_index',
+                'args' => array(
+                    'label_for' => $key,
+                    'field' => 'mail',
+                    'placeholder'=> $value[1],
+                    'option_name' => 'coupons_plugin',
+                    'class' =>'example-class',
+                )
+            );
+        }
+        // TODO: SET RADIO BUTTON/ OPTION FIELD FOR ENCRYPTION VALUE
+        
+        foreach( $this->ccart_settings['smtp'] as $key => $value ){
             $args[] = array(
                 'id' => $key,
                 'title' => $value[0],
                 'callback' => array( $this->callbacks, 'ccartSettingsFields'),
                 'page' => 'coupons_plugin',
-                'section' => 'ccart_mail_index',
+                'section' => 'ccart_smtp_index',
                 'args' => array(
                     'label_for' => $key,
+                    'field' => 'smtp',
                     'placeholder'=> $value[1],
-                    'field' => 'mail',
-                    'class' => 'example-class',
                     'option_name' => 'coupons_plugin',
+                    'class' =>'example-class',
                 )
             );
         }
-        $this->settings->setFields( $args );
+        $this->settings->setFields($args);
     }
 
-    public function register(){
-
-        $this->settings = new SettingsApi();
-        $this->callbacks = new AdminCallbacks();
-
-        $this->setPages();
-        $this->setSubPages();
-
-        $this->setSettings();
-        $this->setSections();
-        $this->setFields();
-
-        $this->settings->addPages( $this->pages )
-                        ->withSubPage('Configuration Settings')
-                        ->addSubPages( $this->subpages)
-                        ->register();
-    }
- 
 }
