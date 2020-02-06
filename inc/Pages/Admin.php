@@ -30,7 +30,7 @@ class Admin extends BaseController
         $this->setSettings();
         $this->setSections();
         $this->setFields();
-
+        
         $this->settings->addPages($this->pages)
             ->withSubPage('Configuration Settings')
             ->addSubPages($this->subpages)
@@ -70,19 +70,24 @@ class Admin extends BaseController
 
     
     public function setSettings(){
-            $args = array(
-                array(
-                    'option_group' => 'ccart_plugin_settings',
-                    'option_name' => 'coupons_plugin',
-                    'callback' => array( $this->callbacks, 'ccartSettingsValidate')
-                )
-            );
-        $this->settings->setSettings($args);
-    }
+        $args = array(
+            array(
+                'option_group' => 'ccart_plugin_settings',
+                'option_name' => 'coupons_plugin',
+                'callback' => array( $this->callbacks, 'ccartSettingsValidate')
+            )
+        );
+    $this->settings->setSettings($args);
+}
 
     public function setSections()
     {
         $args = array(
+            [
+                'id' => 'ccart_ipay_live_index',
+                'page' => 'coupons_plugin'
+
+            ],
             [
                 'id' => 'ccart_ipay_index',
                 'title' => 'iPay Settings',
@@ -94,6 +99,11 @@ class Admin extends BaseController
                 'id' => 'ccart_mail_index',
                 'title' => 'Mailing Settings',
                 'callback' => array($this->callbacks, 'ccartMailSection'),
+                'page' => 'coupons_plugin'
+
+            ],
+            [
+                'id' => 'ccart_set_smtp_index',
                 'page' => 'coupons_plugin'
 
             ],
@@ -114,26 +124,44 @@ class Admin extends BaseController
     {
         $args = array();
         foreach ($this->ccart_settings['ipay'] as $key => $value) {
-            $args[] = array(
-                'id' => $key,
-                'title' => $value[0],
-                'callback' => array($this->callbacks, 'ccartSettingsFields'),
-                'page' => 'coupons_plugin',
-                'section' => 'ccart_ipay_index',
-                'args' => array(
-                    'label_for' => $key,
-                    'placeholder'=> $value[1],
-                    'field' => 'ipay',
-                    'class' =>'example-class',
-                    'option_name' => 'coupons_plugin',    
-                )
-            );
+            switch($value[2]){
+                case "toggle":
+                    $args[] = array(
+                        'id' => $key,
+                        'title' => $value[0],
+                        'callback' => array( $this->callbacks, 'ccartCheckboxFields'),
+                        'page' => 'coupons_plugin',
+                        'section' => 'ccart_ipay_live_index',
+                        'args' => array(
+                            'label_for' => $key,
+                            'field' => 'ipay',
+                            'option_name' => 'coupons_plugin',
+                            'class' =>'example-class',
+                        )
+                    );
+                break;
+                default:
+                $args[] = array(
+                    'id' => $key,
+                    'title' => $value[0],
+                    'callback' => array($this->callbacks, 'ccartTextFields'),
+                    'page' => 'coupons_plugin',
+                    'section' => 'ccart_ipay_index',
+                    'args' => array(
+                        'label_for' => $key,
+                        'placeholder'=> $value[1],
+                        'field' => 'ipay',
+                        'class' =>'example-class',
+                        'option_name' => 'coupons_plugin',    
+                    )
+                );
+            }
         }
         foreach ($this->ccart_settings['mail'] as $key => $value) {
             $args[] = array(
                 'id' => $key,
                 'title' => $value[0],
-                'callback' => array($this->callbacks, 'ccartSettingsFields'),
+                'callback' => array($this->callbacks, 'ccartTextFields'),
                 'page' => 'coupons_plugin',
                 'section' => 'ccart_mail_index',
                 'args' => array(
@@ -145,23 +173,72 @@ class Admin extends BaseController
                 )
             );
         }
-        // TODO: SET RADIO BUTTON/ OPTION FIELD FOR ENCRYPTION VALUE
         
         foreach( $this->ccart_settings['smtp'] as $key => $value ){
-            $args[] = array(
-                'id' => $key,
-                'title' => $value[0],
-                'callback' => array( $this->callbacks, 'ccartSettingsFields'),
-                'page' => 'coupons_plugin',
-                'section' => 'ccart_smtp_index',
-                'args' => array(
-                    'label_for' => $key,
-                    'field' => 'smtp',
-                    'placeholder'=> $value[1],
-                    'option_name' => 'coupons_plugin',
-                    'class' =>'example-class',
-                )
-            );
+            switch ($value[2]){
+                case "toggle":
+                    $args[] = array(
+                        'id' => $key,
+                        'title' => $value[0],
+                        'callback' => array( $this->callbacks, 'ccartCheckboxFields'),
+                        'page' => 'coupons_plugin',
+                        'section' => 'ccart_set_smtp_index',
+                        'args' => array(
+                            'label_for' => $key,
+                            'field' => 'smtp',
+                            'option_name' => 'coupons_plugin',
+                            'class' =>'example-class',
+                        )
+                    );
+                break;  
+                case "option":
+                    $args[] = array(
+                        'id' => $key,
+                        'title' => $value[0],
+                        'callback' => array( $this->callbacks, 'ccartRadioButtons'),
+                        'page' => 'coupons_plugin',
+                        'section' => 'ccart_smtp_index',
+                        'args' => array(
+                            'label_for' => $key,
+                            'field' => 'smtp',
+                            'placeholder'=> $value[1],
+                            'option_name' => 'coupons_plugin',
+                            'class' =>'example-class',
+                        )
+                    );
+                break;
+                case "password":
+                    $args[] = array(
+                        'id' => $key,
+                        'title' => $value[0],
+                        'callback' => array( $this->callbacks, 'ccartPasswordFields'),
+                        'page' => 'coupons_plugin',
+                        'section' => 'ccart_smtp_index',
+                        'args' => array(
+                            'label_for' => $key,
+                            'field' => 'smtp',
+                            'placeholder'=> $value[1],
+                            'option_name' => 'coupons_plugin',
+                            'class' =>'example-class',
+                        )
+                    );
+                break;  
+                default:
+                    $args[] = array(
+                        'id' => $key,
+                        'title' => $value[0],
+                        'callback' => array( $this->callbacks, 'ccartTextFields'),
+                        'page' => 'coupons_plugin',
+                        'section' => 'ccart_smtp_index',
+                        'args' => array(
+                            'label_for' => $key,
+                            'field' => 'smtp',
+                            'placeholder'=> $value[1],
+                            'option_name' => 'coupons_plugin',
+                            'class' =>'example-class',
+                        )
+                    );   
+            }
         }
         $this->settings->setFields($args);
     }

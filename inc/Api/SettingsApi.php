@@ -101,7 +101,7 @@ class SettingsApi
         foreach( $this->sections as $section ){
             add_settings_section(
                 $section["id"],
-                $section["title"],
+                (isset($section["title"]) ? $section["title"]: ''),
                 (isset($section["callback"]) ? $section["callback"]: ''),
                 $section["page"]
             );

@@ -25,8 +25,10 @@ abstract class BaseController
         $this->ccart_settings = array(
             'ipay' => 
             [
-                'vendor_id' => ['Vendor ID',''],
-                'hashkey' => ['Hash Key',''],
+                'live' => ['Set iPay to Live', '', 'toggle'],
+                'vendor_id' => ['Vendor ID','', 'text'],
+                'hashkey' => ['Hash Key','', 'text'],
+                
             ],
             'mail'=>
             [
@@ -35,11 +37,12 @@ abstract class BaseController
             ],   
             'smtp'=>
             [
-                'smtp_server' => ['SMTP Server','e.g. smtp.mail.com', 'text'],
-                'smtp_port' => ['SMTP Port','', 'text'],
-                'smtp_encryption'=>['SMTP Encryption','', 'option'],
-                'smtp_username'=>['SMTP Username','e.g. admin@mail.com', 'text'],
-                'smtp_password'=>['SMTP Password','', 'text']
+                'settings' => ['Set SMTP Settings', '', 'toggle'],
+                'server' => ['SMTP Server','e.g. smtp.mail.com', 'text'],
+                'port' => ['SMTP Port','', 'text'],
+                'encryption'=>['SMTP Encryption','', 'option'],
+                'username'=>['SMTP Username','e.g. admin@mail.com', 'text'],
+                'password'=>['SMTP Password','', 'password'],
             ]
         );
 
