@@ -57,8 +57,7 @@ class AdminCallbacks extends BaseController{
             add_settings_error( 'coupons_plugin', 'invalid-email', 'Enter a valid e-mail address.' );
 
         $output["smtp"]["server"] = $input["smtp"]["server"];
-        is_numeric( $input['smtp']['port'] ) ? $output["smtp"]["port"]  = $input['smtp']['port']:
-            add_settings_error( 'coupons_plugin', 'invalid-value', 'Enter a numeric value as the SMTP Port Number.' );
+        $output["smtp"]["port"]  = $input['smtp']['port'];
         $output["smtp"]["encryption"] = $input["smtp"]["encryption"];
         $output["smtp"]["username"] = $input["smtp"]["username"];
         $output["smtp"]["password"] = $input["smtp"]["password"];
@@ -90,6 +89,19 @@ class AdminCallbacks extends BaseController{
         $value = esc_attr( $settings[$field][$name] ?? '' );
         echo '
             <input type="text" id="'. $name .'" name="'. $option_name . '['. $field . ']['. $name .']" placeholder="'. $placeholder .'" value= "'.$value.'" required>
+        ';
+    }
+
+    public function ccartNumericFields($args)
+    {
+        $name = $args['label_for'];
+        $field = $args['field'];
+        $option_name = $args['option_name'];
+        $placeholder = $args['placeholder'];
+        $settings = (array) get_option($option_name);
+        $value = esc_attr( $settings[$field][$name] ?? '');
+        echo '
+            <input type="number" id="'. $name .'" name="'. $option_name . '['. $field . ']['. $name .']" placeholder="'. $placeholder .'" value= "'.$value.'" required>
         ';
     }
 
