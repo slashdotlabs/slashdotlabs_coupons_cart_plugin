@@ -26,7 +26,7 @@ class IpayGateway extends BaseController
         // Retrieve vid and hashkey from options
         $ipay_options = self::get_ipay_options();
 
-        $live = $ipay_options['live'] ?? "0";
+        $live = $ipay_options['live'] ? "1" : "0";
         $vid = $ipay_options['vendor_id'];
         $hashkey = $ipay_options['hashkey'];
 
