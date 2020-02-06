@@ -17,8 +17,8 @@ abstract class BaseController
         
     public function __construct()
     {
-        $this->plugin_path = plugin_dir_path(dirname(__FILE__, 2));
-        $this->plugin_url = plugin_dir_url(dirname(__FILE__, 2));
+        $this->plugin_path = plugin_dir_path($this->dirname_r(__FILE__, 2));
+        $this->plugin_url = plugin_dir_url($this->dirname_r(__FILE__, 2));
         $this->plugin_name = SLASH_COUPON_PLUGIN_NAME;
 
 
@@ -47,6 +47,15 @@ abstract class BaseController
         );
 
         $this->twig = Twig::instance();
+    }
+
+    // Backward compatibility for PHP < 7.0
+    function dirname_r($path, $count=1){
+        if ($count > 1){
+            return dirname($this->dirname_r($path, --$count));
+        }else{
+            return dirname($path);
+        }
     }
 
 }

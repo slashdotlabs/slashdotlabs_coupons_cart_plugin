@@ -4,8 +4,6 @@
 namespace Slash;
 
 
-use Slash\Api\Mailer;
-
 final class Init
 {
     /**
