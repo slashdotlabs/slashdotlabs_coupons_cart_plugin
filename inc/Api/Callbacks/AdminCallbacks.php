@@ -73,7 +73,7 @@ class AdminCallbacks extends BaseController{
         $checkbox = get_option($option_name);
         $value = esc_attr( $checkbox[$field][$name] ?? '' );
         echo '
-            <input type="checkbox" name="'. $option_name . '['. $field . ']['. $name .']" class="'. $class .'"  value = "1" ' . (($value=='1') ? 'checked' : '') . '>
+            <input type="checkbox" id="'. $name .'" name="'. $option_name . '['. $field . ']['. $name .']" class="'. $class .'"  value = "1" ' . (($value=='1') ? 'checked' : '') . '>
         ';
     }
 
@@ -86,7 +86,7 @@ class AdminCallbacks extends BaseController{
         $settings = (array) get_option($option_name);
         $value = esc_attr( $settings[$field][$name] ?? '');
         echo '
-            <input type="text" name="'. $option_name . '['. $field . ']['. $name .']" placeholder="'. $placeholder .'" value= "'.$value.'" required>
+            <input type="text" id="'. $name .'" name="'. $option_name . '['. $field . ']['. $name .']" placeholder="'. $placeholder .'" value= "'.$value.'" required>
         ';
     }
 
@@ -101,9 +101,9 @@ class AdminCallbacks extends BaseController{
         $value = esc_attr( $settings[$field][$name] ?? '' );
 
         echo '
-            <input type="radio" name="'. $option_name . '['. $field . ']['. $name .']" placeholder="'. $placeholder .'" value= "ssl" ' . (($value=='ssl') ? 'checked' : '') . '> SSL 
+            <input type="radio" id="'. $name .'" name="'. $option_name . '['. $field . ']['. $name .']" placeholder="'. $placeholder .'" value= "ssl" ' . (($value=='ssl') ? 'checked' : '') . '> SSL 
             &ensp;
-            <input type="radio" name="'. $option_name . '['. $field . ']['. $name .']" placeholder="'. $placeholder .'" value= "tls" ' . (($value=='tls') ? 'checked' : '') . '> TLS
+            <input type="radio" id="'. $name .'" name="'. $option_name . '['. $field . ']['. $name .']" placeholder="'. $placeholder .'" value= "tls" ' . (($value=='tls') ? 'checked' : '') . '> TLS
         ';
     }
     public function ccartPasswordFields($args)
@@ -115,7 +115,7 @@ class AdminCallbacks extends BaseController{
         $settings = (array) get_option($option_name);
         $value = esc_attr( $settings[$field][$name] ?? '' );
         echo '
-            <input type="password" name="'. $option_name . '['. $field . ']['. $name .']" placeholder="'. $placeholder .'" value= "'.$value.'" required>
+            <input type="password" id="'. $name .'" name="'. $option_name . '['. $field . ']['. $name .']" placeholder="'. $placeholder .'" value= "'.$value.'" required>
         ';
     }
     
