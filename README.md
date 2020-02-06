@@ -11,7 +11,7 @@ WordPress plugin that integrates iPay payment gateway to facilitate coupon purch
 
 ### Installation
 
-- Download the latest beta release [here](https://github.com/steekam/slashdotlabs_coupons_cart_plugin/archive/v1.0.beta.zip) or use the clone/download option on the repo interface which might be unstable
+- Download the latest beta release [here](https://github.com/steekam/slashdotlabs_coupons_cart_plugin/archive/v1.1.beta.zip) or use the clone/download option on the repo interface which might be unstable
 - In your WordPress install, go to ``plugins`` then the ``Add New`` option.
 - Upload the zipped folder to install
 - Go to the ``plugins`` page and activate the plugin.
