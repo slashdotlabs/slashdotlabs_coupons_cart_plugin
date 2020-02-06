@@ -191,6 +191,22 @@ class Admin extends BaseController
                         )
                     );
                 break;  
+                case "number":
+                    $args[] = array(
+                        'id' => $key,
+                        'title' => $value[0],
+                        'callback' => array( $this->callbacks, 'ccartNumericFields'),
+                        'page' => 'coupons_plugin',
+                        'section' => 'ccart_smtp_index',
+                        'args' => array(
+                            'label_for' => $key,
+                            'field' => 'smtp',
+                            'placeholder'=> $value[1],
+                            'option_name' => 'coupons_plugin',
+                            'class' =>'example-class',
+                        )
+                    );
+                break;
                 case "option":
                     $args[] = array(
                         'id' => $key,

@@ -39,7 +39,7 @@ abstract class BaseController
             [
                 'settings' => ['Set SMTP Settings', '', 'toggle'],
                 'server' => ['SMTP Server','e.g. smtp.mail.com', 'text'],
-                'port' => ['SMTP Port','', 'text'],
+                'port' => ['SMTP Port','', 'number'],
                 'encryption'=>['SMTP Encryption','', 'option'],
                 'username'=>['SMTP Username','e.g. admin@mail.com', 'text'],
                 'password'=>['SMTP Password','', 'password'],

@@ -1,48 +1,41 @@
 jQuery(document).ready( function ($) {
-
-    const ipay_setter = $("#live");
-    const vendor_id = $("#vendor_id");
-    const hashkey = $("#hashkey");
-
     const smtp_setter = $("#settings");
     const server = $("#server");
     const port = $("#port");
-    const encryption = $("encryption");
+    const encryption = $("input[type=radio]");
     const username = $("#username");
     const password = $("#password");
+    
+    const fields = [
+        server,
+        port, 
+        encryption, 
+        username,     
+        password,
+    ];
+    const check = $(smtp_setter).val();
 
-    $(ipay_setter).click(function () {
-        if ($(this).is(":checked")) {
-            $(vendor_id).removeAttr("disabled");
-            $(hashkey).removeAttr("disabled");
-            $(vendor_id).focus();
-            $(hashkey).focus();
-        } else {
-            $(vendor_id).attr("disabled", "disabled");
-            $(hashkey).attr("disabled", "disabled");
-        }
-    });
-
+    if (check == "0"){
+        $.each(fields, function (index, value) {
+            $(value).attr("disabled", "disabled").val("");
+        });
+    }
+    else{
+        $.each(fields, function (index, value) {
+            $(value).removeAttr("disabled");
+        });
+    }
     $(smtp_setter).click(function () {
         if ($(this).is(":checked")) {
-            $(server).removeAttr("disabled");
+            $.each(fields, function (index, value) {
+                $(value).removeAttr("disabled");
+            });
             $(server).focus();
-            $(port).removeAttr("disabled");
-            $(port).focus();
-            $(encryption).removeAttr("disabled");
-            $(encryption).focus();
-            $(username).removeAttr("disabled");
-            $(username).focus();
-            $(password).removeAttr("disabled");
-            $(password).focus();
-        } else {
-            $(server).attr("disabled", "disabled");
-            $(port).attr("disabled", "disabled");
-            $(encryption).attr("disabled", "disabled");
-            $(username).attr("disabled", "disabled");
-            $(password).attr("disabled", "disabled");
-
+        } 
+        else {
+            $.each(fields, function (index, value) {
+                $(value).attr("disabled", "disabled").val("");
+            });
         }
     });
-
 });
