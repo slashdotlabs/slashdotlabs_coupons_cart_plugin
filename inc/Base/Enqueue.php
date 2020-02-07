@@ -47,7 +47,7 @@ class Enqueue extends BaseController
 
     public function enqueue_front_scripts()
     {
-        if (get_the_ID()) {
+        if (is_single()) {
             wp_enqueue_style('scp-tailwind', $this->plugin_url . 'assets/css/slashcoupon.css');
 
             // Masked Inputs
