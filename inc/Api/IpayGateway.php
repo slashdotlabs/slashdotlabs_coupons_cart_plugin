@@ -14,31 +14,36 @@ use Twig\Error\SyntaxError;
 class IpayGateway extends BaseController
 {
     private $paymentModel;
+    private $vendor_id;
+    private $hashkey;
+    private $mode;
 
     public function __construct()
     {
         parent::__construct();
         $this->paymentModel = new PaymentsModel();
+
+        // Get saved options
+        $plugin_options = get_option('coupons_plugin');
+        if (!empty($plugin_options) && array_key_exists('ipay', $plugin_options)){
+            $ipay_options = $plugin_options['ipay'];
+            $this->mode = $ipay_options['live'] ? "1" : "0";
+            $this->vendor_id = $ipay_options['vendor_id'];
+            $this->hashkey = $ipay_options['hashkey'];
+        }
     }
 
-    public static function retriveUrl(array $meta_data)
+    public function retriveUrl(array $meta_data)
     {
-        // Retrieve vid and hashkey from options
-        $ipay_options = self::get_ipay_options();
-
-        $live = $ipay_options['live'] ? "1" : "0";
-        $vid = $ipay_options['vendor_id'];
-        $hashkey = $ipay_options['hashkey'];
-
         $ipay_base_url = "https://payments.ipayafrica.com/v3/ke";
         $fields = [
-            "live" => $live,
+            "live" => $this->mode,
             "oid" => $meta_data['order_id'],
             "inv" => null,
             "ttl" => $meta_data['total_amount'],
             "tel" => $meta_data['phone_number'],
             "eml" => $meta_data['email'],
-            "vid" => $vid,
+            "vid" => $this->vendor_id,
             "curr" => "KES",
             "p1" => "",
             "p2" => "",
@@ -53,7 +58,7 @@ class IpayGateway extends BaseController
         $datastring = implode("", $fields);
 
         // generate hash
-        $generated_hash = hash_hmac('sha1', $datastring, $hashkey);
+        $generated_hash = hash_hmac('sha1', $datastring, $this->hashkey);
 
         $fields['hsh'] = $generated_hash;
 
@@ -61,7 +66,7 @@ class IpayGateway extends BaseController
         $fields['cbk'] = urlencode($fields['cbk']);
 
         // add other optional fields (lbk and autopay)
-        $fields['autopay'] = "1";
+//        $fields['autopay'] = "1";
 
         $fields_string = array_map(function ($value, $key) {
             return $key . '=' . $value;
@@ -69,14 +74,6 @@ class IpayGateway extends BaseController
         $fields_string = implode("&", $fields_string);
 
         return $ipay_base_url . '?' . $fields_string;
-    }
-
-    private static function get_ipay_options()
-    {
-        // Get saved options
-        $plugin_options = get_option('coupons_plugin');
-        if (!$plugin_options) return false;
-        return $plugin_options['ipay'] ?? false;
     }
 
     /**
@@ -98,7 +95,10 @@ class IpayGateway extends BaseController
             $record = $this->paymentModel->getByOrderId($response['id']);
             if($record->status !== "initiated") throw new Exception("Your coupon payment is already processed. You can exit this window now :)");
 
-            $status_res = $this->get_status_state($response['status']);
+            // Verify status with iPay IPN
+            $verified_status = $this->verify_payment_status($this->vendor_id, $response);
+
+            $status_res = $this->get_status_state($verified_status);
             // Update transaction
             $update_data = [
                 'status' => $status_res['process'] ? 'completed' : 'cancelled',
@@ -120,7 +120,7 @@ class IpayGateway extends BaseController
 
             echo $this->twig->render('partials/payment_success.twig',
                 [
-                    'name' => $record->fname." ".$record->lname,
+                    'name' => $record->fname . " " . $record->lname,
                     'coupon' => $record->customer_coupon,
                     'email' => $record->email
                 ]);
@@ -128,6 +128,24 @@ class IpayGateway extends BaseController
             echo $this->twig->render('partials/payment_error.twig', ['content' => $exception->getMessage()]);
         }
         exit;
+    }
+
+    private function verify_payment_status(string $vendor_id, array $response)
+    {
+        $val1 = $response["id"];
+        $val2 = $response["ivm"];
+        $val3 = $response["qwh"];
+        $val4 = $response["afd"];
+        $val5 = $response["poi"];
+        $val6 = $response["uyt"];
+        $val7 = $response["ifd"];
+
+        $ipnurl = "https://www.ipayafrica.com/ipn/?vendor=" . $vendor_id . "&id=" . $val1 . "&ivm=" .
+            $val2 . "&qwh=" . $val3 . "&afd=" . $val4 . "&poi=" . $val5 . "&uyt=" . $val6 . "&ifd=" . $val7;
+        $fp = fopen($ipnurl, "rb");
+        $status = stream_get_contents($fp, -1, -1);
+        fclose($fp);
+        return $status;
     }
 
     /**
