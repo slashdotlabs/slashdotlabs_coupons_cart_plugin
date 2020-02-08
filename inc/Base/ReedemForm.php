@@ -75,8 +75,9 @@ class ReedemForm extends BaseController
             'email' => $data['customer_email'],
             'phone' => $data['customer_phone_number'],
             'coupon_id' => $data['coupon_id'],
+            'amount' => $data['coupon_price'],
             'customer_coupon' => $data['coupon_name']."-".$coupon_count,
-            'order_id' => "ccart-demo-".time()
+            'order_id' => "ccart-".time()
         ];
         $inserted = $paymentsModel->insert($insert_data);
         if(!$inserted) wp_send_json_error(['msg' => 'Could not process request. Try again later']);
@@ -89,7 +90,7 @@ class ReedemForm extends BaseController
             'total_amount' => $data['coupon_price'],
             'cbk' => get_permalink($data['coupon_id']),
         ];
-        $iframeURL = IpayGateway::retriveUrl($meta_data);
+        $iframeURL = (new IpayGateway())->retriveUrl($meta_data);
         if (!$iframeURL) wp_send_json_error(['msg' => 'Could not process request']);
         wp_send_json_success(['iframeURL' => $iframeURL]);
         wp_die();

@@ -8,16 +8,14 @@ const initPhoneMask = () => {
     }
 };
 
-const redeemCoupon = () => {
-    /**
-     * Steps:
-     * 1. handle form values
-     * 2. fetch iframe url
-     * 3. show iframe with ipaygateway
-     * 4. on payment finish remove iframe with message
-     *
-     */
+const processingForm = isProcessing => {
+    console.log({isProcessing});
+    const button = $('#slash-coupon-redeem-form button[type=submit]');
+    const text = isProcessing ? 'Processing...' : 'Pay now';
+    button.text(text);
+};
 
+const redeemCoupon = () => {
     const form = $('#slash-coupon-redeem-form');
     form.on('submit', event => {
         event.preventDefault();
@@ -26,6 +24,9 @@ const redeemCoupon = () => {
             .forEach(field => {
                 data[field['name']] = field['value'];
             });
+
+        // Show processing
+        processingForm(true);
 
         // fetch iframe url
         $.ajax({
@@ -56,11 +57,14 @@ const handleIframe = (url) => {
 
     iframe.on('load', event => {
         const src = iframe.attr('src');
-        if(src === '') return;
+        if (src === '') return;
 
         // ?Show iframe wrapper
         iframeWrapper.removeClass('hidden')
             .prev().addClass('hidden');
+
+        // Remove processing
+        processingForm(false);
     });
 
     // ?On payment dismiss

@@ -21,7 +21,7 @@ class PaymentsModel
 
     public function fetchPayments()
     {
-        return $this->db->get_results("SELECT * FROM {$this->table}");
+        return $this->db->get_results("SELECT * FROM {$this->table} ORDER BY order_id DESC");
     }
 
     public function getByOrderId($order_id)

@@ -1,9 +1,8 @@
 {% if not expired %}
     <div class="slashcoupon-wrapper border border-gray-300 shadow-md bg-gray-100 opacity-75 rounded mt-6">
         <div id="form-wrapper" class="md:p-6 px-4 py-6">
-            <div class="flex justify-between items-center px-2 text-gray-800 md:text-2xl text-lg mb-6">
-                <span class="capitalize">Reedem coupon now!</span>
-                <span>Price: <span class="text-blue-500">KES {{ data.coupon_price|default('') }}</span></span>
+            <div class="flex justify-between items-center px-2 text-gray-800 md:text-2xl text-lg font-medium mb-6">
+                <span class="">Get This Offer for <span class="text-blue-500">KES {{ data.coupon_price|default('') }}</span></span>
             </div>
             <form id="slash-coupon-redeem-form" onsubmit="return false;">
                 <input type="hidden" name="coupon_id" value="{{ coupon_id|default('') }}">
@@ -39,21 +38,21 @@
                     </div>
                 </div>
 
-                <div class="flex justify-end px-2">
-                    <button class="btn bg-blue-500 hover:bg-blue-700 capitalize text-sm text-white">Redeem Coupon</button>
+                <div class="px-2">
+                    <button type="submit" class="btn bg-brand-orange hover:bg-brand-gray focus:bg-brand-gray uppercase text-base text-white">Pay now</button>
                 </div>
             </form>
         </div>
 
         <div id="iframe-wrapper" class="flex flex-col hidden">
-            <div class="border-b border-gray-400 p-4  text-gray-700 flex justify-between items-end">
+            <div class="border-b border-gray-500 p-4  text-gray-700 flex justify-between items-end">
                 <span class="text-lg uppercase text-gray-700">Coupon Payment</span>
                 <span class="text-2xl cursor-pointer" title="Dismiss payment" data-dismiss="payment">x</span>
             </div>
             <div class="flex-grow">
                 <iframe src="" class="w-full min-h-screen border-none" id="ipay-iframe"></iframe>
             </div>
-            <div class="border-t border-gray-400 p-2 flex justify-end items-center">
+            <div class="border-t border-gray-500 p-2 flex justify-end items-center">
                 <button class="btn text-sm text-black bg-gray-400 hover:bg-gray-500" title="Dismiss payment" data-dismiss="payment">Cancel</button>
             </div>
         </div>

@@ -11,10 +11,8 @@ module.exports = {
     },
     colors: {
       transparent: 'transparent',
-
       black: '#000',
       white: '#fff',
-
       gray: {
         100: '#f7fafc',
         200: '#edf2f7',
@@ -59,6 +57,10 @@ module.exports = {
         800: '#2c5282',
         900: '#2a4365',
       },
+      brand: {
+        'orange': '#D99C34',
+        'gray': '#9B9B9B',
+      }
     },
     spacing: {
       px: '1px',
