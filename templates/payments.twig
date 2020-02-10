@@ -1,0 +1,42 @@
+<div class="wrap">
+    <h1> Coupon Payments </h1>    <br>
+
+    <?php settings_errors(); ?>
+
+    <div class="pt-2">
+        <table class="paymentsTable table table-striped table-bordered" style="width: 100%">
+        <thead class="text-uppercase">
+        <tr>
+            <th>Customer</th>
+            <th>ORDER</th>
+            <th>Amount</th>
+            <th>Channel</th>
+            <th>Reference</th>
+            <th>Paid On</th>
+            <th>Status</th>
+            <th>Coupon</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for payment in payments %}
+        <tr class="align-middle">
+            <td nowrap>
+                <span class="text-info text-uppercase">{{ "#{payment.fname} #{payment.lname}" }}</span> <br>
+                <small class="text-muted font-weight-bold">{{ payment.email }} | {{ payment.phone }}</small>
+            </td>
+            <td class="align-middle" nowrap>{{ payment.order_id }}</td>
+            <td class="align-middle">{{ payment.amount }}</td>
+            <td class="align-middle">{{ payment.payment_type|default('N/A') }}</td>
+            <td class="align-middle">{{ payment.transaction_ref|default('N/A') }}</td>
+            <td class="align-middle" nowrap>{{ payment.payment_date is empty ? "N/A" : payment.payment_date|date('M d, Y') }}</td>
+            <td class="align-middle">
+                <span class="badge badge-{{ attribute(status_badges_map, payment.status) }}">{{ payment.status }}</span>
+            </td>
+            <td class="align-middle" nowrap>{{ payment.customer_coupon }}</td>
+        </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+    </div>
+</div>

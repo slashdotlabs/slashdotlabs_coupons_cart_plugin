@@ -17,7 +17,6 @@ class IpayGateway extends BaseController
     private $vendor_id;
     private $hashkey;
     private $mode;
-    private $autopay;
 
     public function __construct()
     {
@@ -31,7 +30,6 @@ class IpayGateway extends BaseController
             $this->mode = $ipay_options['live'] ? "1" : "0";
             $this->vendor_id = $ipay_options['vendor_id'];
             $this->hashkey = $ipay_options['hashkey'];
-            $this->autopay = $ipay_options['autopay'];
         }
     }
 
@@ -87,8 +85,8 @@ class IpayGateway extends BaseController
 
             if (empty($response)) return;
 
-//            $logger = new Logger();
-//            $logger->log(json_encode(['fields_return' => $response]));
+            $logger = new Logger();
+            $logger->log(json_encode(['fields_return' => $response]));
 
             // Check if payment is already processed
             $record = $this->paymentModel->getByOrderId($response['id']);
