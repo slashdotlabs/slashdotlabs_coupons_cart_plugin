@@ -87,8 +87,8 @@ class IpayGateway extends BaseController
 
             if (empty($response)) return;
 
-            $logger = new Logger();
-            $logger->log(json_encode(['fields_return' => $response]));
+//            $logger = new Logger();
+//            $logger->log(json_encode(['fields_return' => $response]));
 
             // Check if payment is already processed
             $record = $this->paymentModel->getByOrderId($response['id']);
