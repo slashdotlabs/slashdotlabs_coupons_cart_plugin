@@ -67,8 +67,6 @@ class IpayGateway extends BaseController
         // url encode callback
         $fields['cbk'] = urlencode($fields['cbk']);
 
-        $fields['autopay'] = $this->autopay;
-
         $fields_string = array_map(function ($value, $key) {
             return $key . '=' . $value;
         }, array_values($fields), array_keys($fields));
