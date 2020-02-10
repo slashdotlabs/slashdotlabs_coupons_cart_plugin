@@ -126,7 +126,11 @@ class IpayGateway extends BaseController
                     'email' => $record->email
                 ]);
         } catch (Exception $exception) {
-            $this->logger->log(json_encode($exception));
+            $this->logger->log(json_encode([
+                'code' => $exception->getCode(),
+                'message' => $exception->getMessage(),
+                'trace' => $exception->getTraceAsString()
+            ]));
             echo $this->twig->render('partials/payment_error.twig', ['content' => $exception->getMessage()]);
         }
         exit;
