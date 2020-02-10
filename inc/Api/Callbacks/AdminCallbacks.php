@@ -34,17 +34,7 @@ class AdminCallbacks extends BaseController
         ];
         echo $this->twig->render('payments.twig', ['payments' => $payments, 'status_badges_map' => $status_badges_map]);
     }
-
-    // public function ccartSettingsActivate( $input )
-    // {
-    //     $output = array();
-    //     $ipay_value = $this->ccart_settings["ipay"][2];
-    //     $output[$ipay_value] = isset( $input[$ipay_value] ) ? true : NULL;
-    //     $smtp_value = $this->ccart_settings["smtp"][2];
-    //     $output[$smtp_value] = isset( $input[$smtp_value] ) ? true : NULL;
-
-    //     return $output; }
-
+    
     public function ccartIpaySection()
     {
         echo '<i>Enter the Vendor ID and Hashkey issued by iPay.</i>';
