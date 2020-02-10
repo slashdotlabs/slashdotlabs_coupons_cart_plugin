@@ -253,6 +253,10 @@ form#slash-coupon-redeem-form input[type=email] {
   padding-bottom: 1.5rem;
 }
 
+.pt-2 {
+  padding-top: 0.5rem;
+}
+
 .pt-16 {
   padding-top: 4rem;
 }
@@ -285,8 +289,8 @@ form#slash-coupon-redeem-form input[type=email] {
   color: #276749;
 }
 
-.text-blue-500 {
-  color: #4299e1;
+.text-brand-orange {
+  color: #D99C34;
 }
 
 .text-sm {
@@ -307,6 +311,10 @@ form#slash-coupon-redeem-form input[type=email] {
 
 .uppercase {
   text-transform: uppercase;
+}
+
+.align-middle {
+  vertical-align: middle;
 }
 
 .w-3\/4 {

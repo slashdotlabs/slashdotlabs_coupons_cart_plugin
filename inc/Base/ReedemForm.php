@@ -68,7 +68,6 @@ class ReedemForm extends BaseController
 
         // Insert transaction record in payments table
         $paymentsModel = new PaymentsModel();
-        $coupon_count =  $paymentsModel->getCouponCount($data['coupon_name']);
         $order_id = time();
         $insert_data = [
             'fname' => $data['customer_first_name'],
@@ -97,6 +96,11 @@ class ReedemForm extends BaseController
         wp_die();
     }
 
+    /**
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     */
     public function payment_cb_handler()
     {
         // Only show on post pages and from ipay

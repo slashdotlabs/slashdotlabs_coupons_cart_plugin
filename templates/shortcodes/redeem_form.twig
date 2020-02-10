@@ -2,7 +2,7 @@
     <div class="slashcoupon-wrapper border border-gray-300 shadow-md bg-gray-100 opacity-75 rounded mt-6">
         <div id="form-wrapper" class="md:p-6 px-4 py-6">
             <div class="flex justify-between items-center px-2 text-gray-800 md:text-2xl text-lg font-medium mb-6">
-                <span class="">Get This Offer for <span class="text-blue-500">KES {{ data.coupon_price|default('') }}</span></span>
+                <span class="">Get This Offer for <span class="text-brand-orange">KES {{ data.coupon_price|default('') }}</span></span>
             </div>
             <form id="slash-coupon-redeem-form" onsubmit="return false;">
                 <input type="hidden" name="coupon_id" value="{{ coupon_id|default('') }}">
