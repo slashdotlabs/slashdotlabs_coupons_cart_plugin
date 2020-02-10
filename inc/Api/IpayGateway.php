@@ -17,11 +17,13 @@ class IpayGateway extends BaseController
     private $vendor_id;
     private $hashkey;
     private $mode;
+    private $logger;
 
     public function __construct()
     {
         parent::__construct();
         $this->paymentModel = new PaymentsModel();
+        $this->logger = new Logger();
 
         // Get saved options
         $plugin_options = get_option('coupons_plugin');
@@ -86,8 +88,7 @@ class IpayGateway extends BaseController
             if (empty($response)) return;
 
             if(isset($_GET['debug'])) {
-                $logger = new Logger();
-                $logger->log(json_encode(['fields_return' => $response]));
+                $this->logger->log(json_encode(['fields_return' => $response]));
             }
 
             // Check if payment is already processed
@@ -125,6 +126,7 @@ class IpayGateway extends BaseController
                     'email' => $record->email
                 ]);
         } catch (Exception $exception) {
+            $this->logger->log(json_encode($exception));
             echo $this->twig->render('partials/payment_error.twig', ['content' => $exception->getMessage()]);
         }
         exit;
