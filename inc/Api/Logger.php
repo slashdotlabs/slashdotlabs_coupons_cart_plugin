@@ -14,7 +14,12 @@ class Logger extends BaseController
     {
         parent::__construct();
 
-        $this->logDir = $this->plugin_path."/storage/logs/";
+        $this->logDir = $this->plugin_path."storage/logs/";
+
+        if (!file_exists($this->logDir))
+        {
+            mkdir($this->logDir, 0755, true);
+        }
     }
 
     public function log(string $content)
