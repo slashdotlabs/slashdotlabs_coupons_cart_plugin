@@ -26,6 +26,7 @@ abstract class BaseController
             'ipay' => 
             [
                 'live' => ['Set iPay to Live', '', 'toggle'],
+                'autopay' => ['Enable autopay on mobile checkout', '', 'toggle'],
                 'vendor_id' => ['Vendor ID','', 'text'],
                 'hashkey' => ['Hash Key','', 'text'],
                 

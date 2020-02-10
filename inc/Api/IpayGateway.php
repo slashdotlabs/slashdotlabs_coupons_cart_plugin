@@ -17,6 +17,7 @@ class IpayGateway extends BaseController
     private $vendor_id;
     private $hashkey;
     private $mode;
+    private $autopay;
 
     public function __construct()
     {
@@ -30,6 +31,7 @@ class IpayGateway extends BaseController
             $this->mode = $ipay_options['live'] ? "1" : "0";
             $this->vendor_id = $ipay_options['vendor_id'];
             $this->hashkey = $ipay_options['hashkey'];
+            $this->autopay = $ipay_options['autopay'];
         }
     }
 
@@ -65,7 +67,7 @@ class IpayGateway extends BaseController
         // url encode callback
         $fields['cbk'] = urlencode($fields['cbk']);
 
-        $fields['autopay'] = "1";
+        $fields['autopay'] = $this->autopay;
 
         $fields_string = array_map(function ($value, $key) {
             return $key . '=' . $value;
