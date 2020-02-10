@@ -104,8 +104,9 @@ class ReedemForm extends BaseController
     public function payment_cb_handler()
     {
         // Only show on post pages and from ipay
-        $valid_ipay_call = array_intersect(['status', 'txncd'], array_keys($_GET));
-        if (get_the_ID() && !empty($valid_ipay_call))
+        $required_ipay_cb_fields = ['status', 'txncd', 'mc', 'channel', 'id', 'ivm', 'qwh', 'afd', 'poi', 'uyt', 'ifd', 'agt'];
+        $valid_ipay_call = array_intersect($required_ipay_cb_fields, array_keys($_GET));
+        if (get_the_ID() && !empty($valid_ipay_call) && count($valid_ipay_call) == count($required_ipay_cb_fields))
         {
             (new IpayGateway())->payment_cb_handler();
         }

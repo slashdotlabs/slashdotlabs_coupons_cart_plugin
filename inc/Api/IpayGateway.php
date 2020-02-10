@@ -92,6 +92,7 @@ class IpayGateway extends BaseController
 
             // Check if payment is already processed
             $record = $this->paymentModel->getByOrderId($response['id']);
+            if($record === false || !isset($record)) throw new Exception("Error processing your request");
             if($record->status !== "initiated") throw new Exception("Your coupon payment is already processed. You can exit this window now :)");
 
             // Verify status with iPay IPN

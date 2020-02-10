@@ -26,7 +26,7 @@ class Logger extends BaseController
     {
         $filename = date("Ymd").".log";
         $destination = $this->logDir.$filename;
-        $now = date("Y-m-d H:m:i");
+        $now = date("Y-m-d H:i:s");
         $content = "[$now] ".$content.PHP_EOL;
         error_log($content, 3, $destination);
     }
