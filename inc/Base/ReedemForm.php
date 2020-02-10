@@ -69,6 +69,7 @@ class ReedemForm extends BaseController
         // Insert transaction record in payments table
         $paymentsModel = new PaymentsModel();
         $coupon_count =  $paymentsModel->getCouponCount($data['coupon_name']);
+        $order_id = time();
         $insert_data = [
             'fname' => $data['customer_first_name'],
             'lname' => $data['customer_last_name'],
@@ -76,8 +77,8 @@ class ReedemForm extends BaseController
             'phone' => $data['customer_phone_number'],
             'coupon_id' => $data['coupon_id'],
             'amount' => $data['coupon_price'],
-            'customer_coupon' => $data['coupon_name']."-".$coupon_count,
-            'order_id' => "ccart-".time()
+            'customer_coupon' => $data['coupon_name']." - ".$order_id,
+            'order_id' => $order_id
         ];
         $inserted = $paymentsModel->insert($insert_data);
         if(!$inserted) wp_send_json_error(['msg' => 'Could not process request. Try again later']);
