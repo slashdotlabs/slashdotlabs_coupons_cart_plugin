@@ -1,10 +1,10 @@
 <style>
-    body {
+    main {
         margin: 0;
         padding: 0;
         display: flex;
         flex-direction: column;
-        min-height: 100vh;
+        min-height: 50vh;
         background: #fff;
         color: #4a5568;
         font-family: sans, sans-serif;
@@ -28,6 +28,7 @@
 
 
 </style>
+<main>
 <div id="content">
     <strong>Hi {{ record.fname }} {{ record.lname }},</strong>
     <p>
@@ -39,3 +40,4 @@
     <small> Copyright &copy; {{ year }} <a href="{{ copy_url|default('#') }}">{{ copy_name }}</a> {{ copy_address }}
     </small>
 </div>
+</main>

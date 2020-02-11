@@ -23,15 +23,18 @@ class Mailer
         $mail_options = $plugin_options['mail'] ?? false;
         if (!$smtp_options || !$mail_options) return;
 
+        $hook_settings = $smtp_options['settings'] ?? false;
+        if ($hook_settings === false) return;
+
         $phpmailer->isSMTP();
-        $phpmailer->Host = $smtp_options['smtp_server'];
+        $phpmailer->Host = $smtp_options['server'];
         $phpmailer->SMTPAuth = true; // Force it to use Username and Password to authenticate
-        $phpmailer->Port = $smtp_options['smtp_port'];
-        $phpmailer->Username = $smtp_options['smtp_username'];
-        $phpmailer->Password = $smtp_options['smtp_password'];
+        $phpmailer->Port = $smtp_options['port'];
+        $phpmailer->Username = $smtp_options['username'];
+        $phpmailer->Password = $smtp_options['password'];
 
         // Additional settings…
-        $phpmailer->SMTPSecure = $smtp_options['smtp_encryption']; // Choose SSL or TLS, if necessary for your server
+        $phpmailer->SMTPSecure = $smtp_options['encryption']; // Choose SSL or TLS, if necessary for your server
         $phpmailer->From = $mail_options['address_from_email'];
         $phpmailer->FromName = $mail_options['address_from_name'];
     }

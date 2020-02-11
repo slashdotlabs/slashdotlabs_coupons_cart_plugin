@@ -99,7 +99,7 @@ class IpayGateway extends BaseController
             // Verify status with iPay IPN
             $verified_status = $this->verify_payment_status($this->vendor_id, $response);
 
-            $status_res = $this->get_status_state($verified_status);
+            $status_res = $this->get_status_state($response['status']);
             // Update transaction
             $update_data = [
                 'status' => $status_res['process'] ? 'completed' : 'cancelled',
