@@ -18,4 +18,4 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 
 [Unreleased]: https://github.com/slashdotlabs/slashdotlabs_coupons_cart_plugin/compare/v1.0.0-beta...HEAD
-[1.0.0-beta]: https://github.com/slashdotlabs/slashdotlabs_coupons_cart_plugin/releases/tags/v1.0.0-beta
+[1.0.0-beta]: https://github.com/slashdotlabs/slashdotlabs_coupons_cart_plugin/releases/tag/v1.0.0-beta
