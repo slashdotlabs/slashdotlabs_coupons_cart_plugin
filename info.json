@@ -1,0 +1,19 @@
+{
+  "download_url" : "https://github.com/slashdotlabs/slashdotlabs_coupons_cart_plugin/archive/v1.0.0-beta.zip",
+  "version" : "1.0.0-beta",
+  "versions" : {
+    "trunk" : "https://github.com/slashdotlabs/slashdotlabs_coupons_cart_plugin/archive/v1.0.0-beta.zip",
+    "1.0.0-beta" : "https://github.com/slashdotlabs/slashdotlabs_coupons_cart_plugin/archive/v1.0.0-beta.zip"
+  },
+  "requires_php" : "7.2",
+  "requires" : "5.0",
+  "tested" : "5.3.2",
+  "last_updated" : "2017-08-17 02:10:00",
+  "upgrade_notice" : "Plugin update is available.",
+  "author" : "Slash Dot Labs",
+  "author_homepage" : "https://slashdotlabs.com",
+  "sections" : {
+    "description" : "This is the plugin to test your updater script",
+    "changelog" : "<h4>1.1 –  August 17, 2017</h4><ul><li>Some bugs are fixed.</li><li>Release date.</li></ul>"
+  }
+}
