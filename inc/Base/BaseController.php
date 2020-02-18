@@ -11,16 +11,21 @@ abstract class BaseController
     public $plugin_path;
     public $plugin_url;
     public $plugin_name;
+    public $plugin_file;
+    public $plugin_slug;
     public $twig;
 
     public $ccart_settings = array();
-        
+
     public function __construct()
     {
         $this->plugin_path = plugin_dir_path($this->dirname_r(__FILE__, 2));
         $this->plugin_url = plugin_dir_url($this->dirname_r(__FILE__, 2));
         $this->plugin_name = SLASH_COUPON_PLUGIN_NAME;
 
+        $name_parts = explode(DIRECTORY_SEPARATOR, $this->plugin_name);
+        $this->plugin_slug = $name_parts[0];
+        $this->plugin_file = $this->plugin_path.$name_parts[1];
 
         $this->ccart_settings = array(
             'ipay' => 

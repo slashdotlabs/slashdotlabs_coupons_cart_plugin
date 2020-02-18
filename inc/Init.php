@@ -19,6 +19,7 @@ final class Init
             Base\ReedemForm::class,
             Base\SettingsLink::class,
             Base\Mailer::class,
+            Base\Updater::class,
         ];
     }
 
