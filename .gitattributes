@@ -1,6 +1,6 @@
 # Files to ignore during archive
 # git files
-.gitattribute export-ignore
+.gitattributes export-ignore
 .gitignore export-ignore
 
 # composer config
@@ -13,7 +13,7 @@ package-lock.json export-ignore
 
 # dev tools
 tailwind.config.js export-ignore
-postcss.config.json export-ignore
+postcss.config.js export-ignore
 src export-ignore
 
 # publisher script
