@@ -4,8 +4,8 @@
   "type": "project",
   "authors": [
     {
-      "name": "Stephen Wanyee",
-      "email": "kamawanyee@gmail.com"
+      "name": "Slash Dot Labs",
+      "email": "technical@slashdotlabs.com"
     }
   ],
   "require": {
@@ -14,7 +14,7 @@
   "autoload": {
     "psr-4": {
       "Slash\\": "./inc",
-      "ConsoleCommands\\": "./commands"
+      "ConsoleCommands\\": "./console_app/commands"
     }
   },
   "require-dev": {

@@ -15,5 +15,5 @@ return array(
     'Symfony\\Component\\Console\\' => array($vendorDir . '/symfony/console'),
     'Slash\\' => array($baseDir . '/inc'),
     'Psr\\Container\\' => array($vendorDir . '/psr/container/src'),
-    'ConsoleCommands\\' => array($baseDir . '/commands'),
+    'ConsoleCommands\\' => array($baseDir . '/console_app/commands'),
 );

@@ -4,6 +4,8 @@
 
 namespace Composer\Autoload;
 
+use Closure;
+
 class ComposerStaticInit66482d7a38391021e84a6a2de807e8a6
 {
     public static $files = array (
@@ -76,7 +78,7 @@ class ComposerStaticInit66482d7a38391021e84a6a2de807e8a6
         ),
         'ConsoleCommands\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/commands',
+            0 => __DIR__ . '/../..' . '/console_app/commands',
         ),
     );
 
@@ -86,7 +88,7 @@ class ComposerStaticInit66482d7a38391021e84a6a2de807e8a6
 
     public static function getInitializer(ClassLoader $loader)
     {
-        return \Closure::bind(function () use ($loader) {
+        return Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit66482d7a38391021e84a6a2de807e8a6::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit66482d7a38391021e84a6a2de807e8a6::$prefixDirsPsr4;
             $loader->classMap = ComposerStaticInit66482d7a38391021e84a6a2de807e8a6::$classMap;

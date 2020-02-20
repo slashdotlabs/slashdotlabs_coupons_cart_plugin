@@ -2,6 +2,7 @@
   "github_username" : "slashdotlabs",
   "github_repo": "slashdotlabs_coupons_cart_plugin",
   "authorize_token": "",
-
+  "dev_branch": "master",
+  "release_branch": "release",
   "plugin_file": "coupons-cart.php"
 }

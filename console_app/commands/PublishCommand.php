@@ -12,9 +12,9 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
-class SemverCommand extends Command
+class PublishCommand extends Command
 {
-    protected static $defaultName = "app:semver";
+    protected static $defaultName = "publish";
     private $dry_run;
     private $pre_release;
     private $new_version;
