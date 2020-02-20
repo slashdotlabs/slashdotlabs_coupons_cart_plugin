@@ -1,19 +1,10 @@
 {
-  "download_url" : "https://api.github.com/repos/slashdotlabs/slashdotlabs_coupons_cart_plugin/zipball/v1.0.0-beta",
-  "version" : "1.0.0-beta",
-  "versions" : {
-    "trunk" : "https://api.github.com/repos/slashdotlabs/slashdotlabs_coupons_cart_plugin/zipball/v1.0.0-beta",
-    "1.0.0-beta" : "https://api.github.com/repos/slashdotlabs/slashdotlabs_coupons_cart_plugin/zipball/v1.0.0-beta"
-  },
+  "download_url" : "https://api.github.com/repos/slashdotlabs/slashdotlabs_coupons_cart_plugin/zipball/v1.1.0",
+  "version" : "1.1.0",
   "requires_php" : "7.2",
   "requires" : "5.0",
   "tested" : "5.3.2",
-  "last_updated" : "2020-02-17 02:10:00",
-  "upgrade_notice" : "Plugin update is available.",
+  "last_updated" : "2020-02-20",
   "author" : "Slash Dot Labs",
   "author_homepage" : "https://slashdotlabs.com",
-  "sections" : {
-    "description" : "This is the plugin to test your updater script",
-    "changelog" : "<h4>1.1 –  August 17, 2017</h4><ul><li>Some bugs are fixed.</li><li>Release date.</li></ul>"
-  }
 }

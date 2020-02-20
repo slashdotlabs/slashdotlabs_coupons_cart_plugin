@@ -85,8 +85,7 @@ class Updater extends BaseController
             if (!is_wp_error($remote_response) && isset($remote_response['response']['code']) && $remote_response['response']['code'] == 200 && !empty($remote_response['body'])) {
                 $response = json_decode(wp_remote_retrieve_body($remote_response), true);
 
-                // TODO: update after testing
-//                set_transient("slash_upgrade_{$this->plugin_slug}", $response, 43200); // 12 hours cache
+                set_transient("slash_upgrade_{$this->plugin_slug}", $response, 43200); // 12 hours cache
             }
         }
         $this->remote_data = $response;
@@ -115,10 +114,8 @@ class Updater extends BaseController
             'last_updated' => $this->remote_data['last_updated'],
             'homepage' => $this->plugin_data["PluginURI"],
             'short_description' => $this->plugin_data["Description"],
-            'sections' => $this->remote_data['sections'],
             'download_link' => $this->remote_data['download_url'],
-            'trunk' => $this->remote_data['download_url'],
-            'versions' => $this->remote_data['versions']
+            'trunk' => $this->remote_data['download_url']
         ];
     }
 

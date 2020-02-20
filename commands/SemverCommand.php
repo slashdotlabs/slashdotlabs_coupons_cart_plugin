@@ -83,6 +83,10 @@ class SemverCommand extends Command
         if ($this->pre_release) $this->io->note("This is a {$this->pre_release} pre release");
     }
 
+    /**
+     * @param string $bump_type
+     * @throws Exception
+     */
     private function update_version(string $bump_type)
     {
         $this->io->title("Generating next {$bump_type} release");
@@ -90,19 +94,18 @@ class SemverCommand extends Command
         // remove pre-release or build metadata
         $latest = strtok($latest, '-');
         list($major, $minor, $patch) = explode('.', $latest);
-        $$bump_type += 1;
+        $$bump_type = (int) $$bump_type + 1;
         $new_version = implode(".", [$major, $minor, $patch]);
 
         if ($this->pre_release) $new_version .= "-" . $this->pre_release;
 
-        if (!($this->dry_run)) $this->create_tag($new_version);
-
+        if (!($this->dry_run)) {
+            $this->update_plugin_info($new_version);
+            $this->create_tag($new_version);
+        }
         $this->io->text("<info>New version:</info> $new_version");
     }
 
-    /**
-     * @param string $new_version
-     */
     private function create_tag(string $new_version)
     {
         $this->io->text("<info>Creating new tag...</info>");
@@ -152,8 +155,42 @@ class SemverCommand extends Command
         ]);
     }
 
-    private function update_plugin_info()
+    /**
+     * @param $new_version
+     * @throws Exception
+     */
+    private function update_plugin_info($new_version)
     {
-        // TODO: info.json and plugin file
+        $config = $this->get_config();
+        $plugin_file =  dirname(__FILE__, 2).DIRECTORY_SEPARATOR.$config['plugin_file'];
+        if (!file_exists($plugin_file)) throw new Exception($plugin_file." not found ");
+        $regex_pattern = "/(?<=(\*\ Version:))(\s+)(.*)/m";
+        $plugin_file_contents = file_get_contents($plugin_file);
+        $plugin_file_contents = preg_replace($regex_pattern, '\\2 '.$new_version, $plugin_file_contents);
+        file_put_contents($plugin_file, $plugin_file_contents);
+        $this->io->text("<info>Updated version in plugin file</info>");
+
+        // Commit change
+        $this->io->text("<info>Commiting change...</info>");
+        $command = "git add {$config['plugin_file']} && git commit -m 'chore: Bumped up plugin version in file'";
+        $this->io->comment($command);
+        $process = Process::fromShellCommandline($command);
+        $process->run();
+        if (!$process->isSuccessful()) throw new ProcessFailedException($process);
+    }
+
+    /**
+     * @throws Exception
+     */
+    private function get_config()
+    {
+        $config_file = dirname(__FILE__) .DIRECTORY_SEPARATOR .'config.json';
+        if (!file_exists($config_file)) throw new Exception("Missing config.json");
+        $config = json_decode(file_get_contents($config_file), true);
+
+        $required_keys = ['github_username', 'github_repo', 'authorize_token', "plugin_file"];
+        $intersect = array_intersect($required_keys, array_keys($config));
+        if (count($intersect) !== count($required_keys)) throw new Exception("Ensure you have a valid config.json with all required keys ".json_encode($required_keys));
+        return $config;
     }
 }
