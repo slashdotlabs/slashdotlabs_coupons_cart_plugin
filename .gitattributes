@@ -17,5 +17,4 @@ postcss.config.js export-ignore
 src export-ignore
 
 # publisher script
-commands/ export-ignore
-console export-ignore
+console_app/ export-ignore
