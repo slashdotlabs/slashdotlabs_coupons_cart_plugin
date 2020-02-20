@@ -1,0 +1,26 @@
+#!/usr/bin/env php
+<?php
+
+
+use ConsoleCommands\GithubHelperCommand;
+use ConsoleCommands\PublishReleaseCommand;
+use ConsoleCommands\SemverCommand;
+use Symfony\Component\Console\Application;
+
+if (file_exists(dirname(__FILE__) . '/vendor/autoload.php')) {
+    require_once dirname(__FILE__) . '/vendor/autoload.php';
+}
+
+
+$application = new Application();
+
+// Register commands
+$application->add(new PublishReleaseCommand());
+$application->add(new SemverCommand());
+$application->add(new GithubHelperCommand());
+
+try {
+    $application->run();
+} catch (Exception $e) {
+    echo $e->getMessage();
+}

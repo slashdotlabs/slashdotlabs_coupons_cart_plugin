@@ -7,6 +7,11 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Template freedom for emails sent to customers.
 - Including a shortcode for coupon expiry date in the post itself
 
+## [1.1.0] - 2020-02-18
+### Added
+- Update checker from the releases on our servers
+- Dev command helper to help follow Semver guidlines in creating tag names
+
 ## [1.0.0-beta] -  2020-02-10
 ### Added
 - Coupon details metabox in post editing interface
@@ -17,5 +22,6 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Payments page for record summary
 
 
-[Unreleased]: https://github.com/slashdotlabs/slashdotlabs_coupons_cart_plugin/compare/v1.0.0-beta...HEAD
+[Unreleased]: https://github.com/slashdotlabs/slashdotlabs_coupons_cart_plugin/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/slashdotlabs/slashdotlabs_coupons_cart_plugin/compare/v1.0.0-beta...v1.1.0
 [1.0.0-beta]: https://github.com/slashdotlabs/slashdotlabs_coupons_cart_plugin/releases/tag/v1.0.0-beta

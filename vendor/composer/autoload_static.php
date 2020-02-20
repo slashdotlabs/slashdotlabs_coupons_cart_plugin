@@ -4,11 +4,14 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit89edb80b88d70170519363be8f139179
+use Closure;
+
+class ComposerStaticInit66482d7a38391021e84a6a2de807e8a6
 {
     public static $files = array (
-        '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
+        '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
+        '0d59ee240a4cd96ddbb4ff164fccea4d' => __DIR__ . '/..' . '/symfony/polyfill-php73/bootstrap.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -18,9 +21,21 @@ class ComposerStaticInit89edb80b88d70170519363be8f139179
         ),
         'S' => 
         array (
+            'Symfony\\Polyfill\\Php73\\' => 23,
             'Symfony\\Polyfill\\Mbstring\\' => 26,
             'Symfony\\Polyfill\\Ctype\\' => 23,
+            'Symfony\\Contracts\\Service\\' => 26,
+            'Symfony\\Component\\Process\\' => 26,
+            'Symfony\\Component\\Console\\' => 26,
             'Slash\\' => 6,
+        ),
+        'P' => 
+        array (
+            'Psr\\Container\\' => 14,
+        ),
+        'C' => 
+        array (
+            'ConsoleCommands\\' => 16,
         ),
     );
 
@@ -28,6 +43,10 @@ class ComposerStaticInit89edb80b88d70170519363be8f139179
         'Twig\\' => 
         array (
             0 => __DIR__ . '/..' . '/twig/twig/src',
+        ),
+        'Symfony\\Polyfill\\Php73\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-php73',
         ),
         'Symfony\\Polyfill\\Mbstring\\' => 
         array (
@@ -37,17 +56,42 @@ class ComposerStaticInit89edb80b88d70170519363be8f139179
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-ctype',
         ),
+        'Symfony\\Contracts\\Service\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/service-contracts',
+        ),
+        'Symfony\\Component\\Process\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/process',
+        ),
+        'Symfony\\Component\\Console\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/console',
+        ),
         'Slash\\' => 
         array (
             0 => __DIR__ . '/../..' . '/inc',
         ),
+        'Psr\\Container\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/container/src',
+        ),
+        'ConsoleCommands\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/commands',
+        ),
+    );
+
+    public static $classMap = array (
+        'JsonException' => __DIR__ . '/..' . '/symfony/polyfill-php73/Resources/stubs/JsonException.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
     {
-        return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit89edb80b88d70170519363be8f139179::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit89edb80b88d70170519363be8f139179::$prefixDirsPsr4;
+        return Closure::bind(function () use ($loader) {
+            $loader->prefixLengthsPsr4 = ComposerStaticInit66482d7a38391021e84a6a2de807e8a6::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit66482d7a38391021e84a6a2de807e8a6::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit66482d7a38391021e84a6a2de807e8a6::$classMap;
 
         }, null, ClassLoader::class);
     }

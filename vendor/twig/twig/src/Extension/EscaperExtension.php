@@ -14,8 +14,10 @@ use Twig\FileExtensionEscapingStrategy;
 use Twig\NodeVisitor\EscaperNodeVisitor;
 use Twig\TokenParser\AutoEscapeTokenParser;
 use Twig\TwigFilter;
+    use function call_user_func;
+    use function is_string;
 
-final class EscaperExtension extends AbstractExtension
+    final class EscaperExtension extends AbstractExtension
 {
     private $defaultStrategy;
     private $escapers = [];
@@ -83,8 +85,8 @@ final class EscaperExtension extends AbstractExtension
     {
         // disable string callables to avoid calling a function named html or js,
         // or any other upcoming escaping strategy
-        if (!\is_string($this->defaultStrategy) && false !== $this->defaultStrategy) {
-            return \call_user_func($this->defaultStrategy, $name);
+        if (!is_string($this->defaultStrategy) && false !== $this->defaultStrategy) {
+            return call_user_func($this->defaultStrategy, $name);
         }
 
         return $this->defaultStrategy;
@@ -169,10 +171,10 @@ function twig_escape_filter(Environment $env, $string, $strategy = 'html', $char
         return $string;
     }
 
-    if (!\is_string($string)) {
-        if (\is_object($string) && method_exists($string, '__toString')) {
+    if (!is_string($string)) {
+        if (is_object($string) && method_exists($string, '__toString')) {
             if ($autoescape) {
-                $c = \get_class($string);
+                $c = get_class($string);
                 $ext = $env->getExtension(EscaperExtension::class);
                 if (!isset($ext->safeClasses[$c])) {
                     $ext->safeClasses[$c] = [];
@@ -191,7 +193,7 @@ function twig_escape_filter(Environment $env, $string, $strategy = 'html', $char
             }
 
             $string = (string) $string;
-        } elseif (\in_array($strategy, ['html', 'js', 'css', 'html_attr', 'url'])) {
+        } elseif (in_array($strategy, ['html', 'js', 'css', 'html_attr', 'url'])) {
             return $string;
         }
     }
@@ -239,7 +241,7 @@ function twig_escape_filter(Environment $env, $string, $strategy = 'html', $char
                 return htmlspecialchars($string, ENT_QUOTES | ENT_SUBSTITUTE, $charset);
             }
 
-            $string = iconv($charset, 'UTF-8', $string);
+            $string = twig_convert_encoding($string, 'UTF-8', $charset);
             $string = htmlspecialchars($string, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 
             return iconv('UTF-8', $charset, $string);
@@ -248,7 +250,7 @@ function twig_escape_filter(Environment $env, $string, $strategy = 'html', $char
             // escape all non-alphanumeric characters
             // into their \x or \uHHHH representations
             if ('UTF-8' !== $charset) {
-                $string = iconv($charset, 'UTF-8', $string);
+                $string = twig_convert_encoding($string, 'UTF-8', $charset);
             }
 
             if (!preg_match('//u', $string)) {
@@ -281,7 +283,7 @@ function twig_escape_filter(Environment $env, $string, $strategy = 'html', $char
                 $char = twig_convert_encoding($char, 'UTF-16BE', 'UTF-8');
                 $char = strtoupper(bin2hex($char));
 
-                if (4 >= \strlen($char)) {
+                if (4 >= strlen($char)) {
                     return sprintf('\u%04s', $char);
                 }
 
@@ -296,7 +298,7 @@ function twig_escape_filter(Environment $env, $string, $strategy = 'html', $char
 
         case 'css':
             if ('UTF-8' !== $charset) {
-                $string = iconv($charset, 'UTF-8', $string);
+                $string = twig_convert_encoding($string, 'UTF-8', $charset);
             }
 
             if (!preg_match('//u', $string)) {
@@ -306,7 +308,7 @@ function twig_escape_filter(Environment $env, $string, $strategy = 'html', $char
             $string = preg_replace_callback('#[^a-zA-Z0-9]#Su', function ($matches) {
                 $char = $matches[0];
 
-                return sprintf('\\%X ', 1 === \strlen($char) ? \ord($char) : mb_ord($char, 'UTF-8'));
+                return sprintf('\\%X ', 1 === strlen($char) ? ord($char) : mb_ord($char, 'UTF-8'));
             }, $string);
 
             if ('UTF-8' !== $charset) {
@@ -317,7 +319,7 @@ function twig_escape_filter(Environment $env, $string, $strategy = 'html', $char
 
         case 'html_attr':
             if ('UTF-8' !== $charset) {
-                $string = iconv($charset, 'UTF-8', $string);
+                $string = twig_convert_encoding($string, 'UTF-8', $charset);
             }
 
             if (!preg_match('//u', $string)) {
@@ -332,7 +334,7 @@ function twig_escape_filter(Environment $env, $string, $strategy = 'html', $char
                  * @license   https://framework.zend.com/license/new-bsd New BSD License
                  */
                 $chr = $matches[0];
-                $ord = \ord($chr);
+                $ord = ord($chr);
 
                 /*
                  * The following replaces characters undefined in HTML with the
@@ -346,7 +348,7 @@ function twig_escape_filter(Environment $env, $string, $strategy = 'html', $char
                  * Check if the current character to escape has a name entity we should
                  * replace it with while grabbing the hex value of the character.
                  */
-                if (1 === \strlen($chr)) {
+                if (1 === strlen($chr)) {
                     /*
                      * While HTML supports far more named entities, the lowest common denominator
                      * has become HTML5's XML Serialisation which is restricted to the those named

@@ -11,6 +11,8 @@
 
 namespace Twig;
 
+use Exception;
+use LogicException;
 use Twig\Cache\CacheInterface;
 use Twig\Cache\FilesystemCache;
 use Twig\Cache\NullCache;
@@ -30,6 +32,9 @@ use Twig\Node\Node;
 use Twig\NodeVisitor\NodeVisitorInterface;
 use Twig\RuntimeLoader\RuntimeLoaderInterface;
 use Twig\TokenParser\TokenParserInterface;
+use function array_key_exists;
+use function is_array;
+use function is_string;
 
 /**
  * Stores the Twig configuration.
@@ -38,11 +43,11 @@ use Twig\TokenParser\TokenParserInterface;
  */
 class Environment
 {
-    const VERSION = '3.0.1';
-    const VERSION_ID = 30001;
+    const VERSION = '3.0.3';
+    const VERSION_ID = 30003;
     const MAJOR_VERSION = 3;
     const MINOR_VERSION = 0;
-    const RELEASE_VERSION = 1;
+    const RELEASE_VERSION = 3;
     const EXTRA_VERSION = '';
 
     private $charset;
@@ -226,7 +231,7 @@ class Environment
      */
     public function setCache($cache)
     {
-        if (\is_string($cache)) {
+        if (is_string($cache)) {
             $this->originalCache = $cache;
             $this->cache = new FilesystemCache($cache);
         } elseif (false === $cache) {
@@ -235,7 +240,7 @@ class Environment
         } elseif ($cache instanceof CacheInterface) {
             $this->originalCache = $this->cache = $cache;
         } else {
-            throw new \LogicException(sprintf('Cache can only be a string, false, or a \Twig\Cache\CacheInterface implementation.'));
+            throw new LogicException(sprintf('Cache can only be a string, false, or a \Twig\Cache\CacheInterface implementation.'));
         }
     }
 
@@ -429,7 +434,7 @@ class Environment
      */
     public function resolveTemplate($names): TemplateWrapper
     {
-        if (!\is_array($names)) {
+        if (!is_array($names)) {
             return $this->load($names);
         }
 
@@ -508,7 +513,7 @@ class Environment
         } catch (Error $e) {
             $e->setSourceContext($source);
             throw $e;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             throw new SyntaxError(sprintf('An exception has been thrown during the compilation of a template ("%s").', $e->getMessage()), -1, $source, $e);
         }
     }
@@ -746,8 +751,8 @@ class Environment
      */
     public function addGlobal(string $name, $value)
     {
-        if ($this->extensionSet->isInitialized() && !\array_key_exists($name, $this->getGlobals())) {
-            throw new \LogicException(sprintf('Unable to add global "%s" as the runtime or the extensions have already been initialized.', $name));
+        if ($this->extensionSet->isInitialized() && !array_key_exists($name, $this->getGlobals())) {
+            throw new LogicException(sprintf('Unable to add global "%s" as the runtime or the extensions have already been initialized.', $name));
         }
 
         if (null !== $this->resolvedGlobals) {
@@ -778,7 +783,7 @@ class Environment
         // we don't use array_merge as the context being generally
         // bigger than globals, this code is faster.
         foreach ($this->getGlobals() as $key => $value) {
-            if (!\array_key_exists($key, $context)) {
+            if (!array_key_exists($key, $context)) {
                 $context[$key] = $value;
             }
         }
