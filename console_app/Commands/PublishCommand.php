@@ -22,6 +22,7 @@ class PublishCommand extends Command
      * @var SymfonyStyle
      */
     private $io;
+    
 
     protected function configure()
     {
