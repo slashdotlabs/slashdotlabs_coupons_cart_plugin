@@ -69,6 +69,11 @@ class GitHelper
         $this->io->text($process->getOutput());
     }
 
+    public function checkout_to_release()
+    {
+        $this->checkout($this->release_branch, false);
+    }
+
     public function delete_branch(string $branch)
     {
         if ($branch === $this->dev_branch) {
@@ -114,6 +119,26 @@ class GitHelper
         $this->io->comment($pop_stash_command);
         $process = ProcessHelper::run($pop_stash_command);
         $this->io->text($process->getOutput());
+    }
+
+    public function create_tag(string $new_version)
+    {
+        $this->io->text("<info>Creating new tag...</info>");
+        $command = "git tag v{$new_version}";
+        $this->io->comment($command);
+        $process = ProcessHelper::run($command);
+        $this->io->text($process->getOutput());
+        $this->io->text("Created tag: v{$new_version}");
+        return "v$new_version";
+    }
+
+    public function push_to_remote(string $branch)
+    {
+        $this->io->text("<info>Pushing changes upstream...</info>");
+        $command = "git push {$this->remote} {$branch}";
+        $process = ProcessHelper::run($command);
+        $this->io->text($process->getOutput());
+        $this->io->text("<info>Changes pushed to remote</info>");
     }
 
     /**
