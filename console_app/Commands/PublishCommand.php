@@ -17,7 +17,7 @@ class PublishCommand extends Command
     protected static $defaultName = "publish";
     private $dry_run;
     private $pre_release;
-    private $new_version;
+
     /**
      * @var SymfonyStyle
      */
@@ -83,42 +83,14 @@ class PublishCommand extends Command
         if ($this->pre_release) $this->io->note("This is a {$this->pre_release} pre release");
     }
 
-    /**
-     * @param string $bump_type
-     * @throws Exception
-     */
-    private function update_version(string $bump_type)
+    private function action_get()
     {
-        $this->io->title("Generating next {$bump_type} release");
-        $latest = $this->get_latest_version();
-        // remove pre-release or build metadata
-        $latest = strtok($latest, '-');
-        list($major, $minor, $patch) = explode('.', $latest);
-        $$bump_type = (int) $$bump_type + 1;
-        $new_version = implode(".", [$major, $minor, $patch]);
-
-        if ($this->pre_release) $new_version .= "-" . $this->pre_release;
-
-        if (!($this->dry_run)) {
-            $this->update_plugin_info($new_version);
-            $this->create_tag($new_version);
-        }
-        $this->io->text("<info>New version:</info> $new_version");
-    }
-
-    private function create_tag(string $new_version)
-    {
-        $this->io->text("<info>Creating new tag...</info>");
-        $process = Process::fromShellCommandline("git tag v{$new_version}");
-        $process->run();
-        if (!$process->isSuccessful()) throw new ProcessFailedException($process);
-        $this->io->text("Created tag: v{$new_version}");
-
-        $this->io->text("<info>Pushing changes upstream...</info>");
-        $process = Process::fromShellCommandline("git push origin v{$new_version}");
-        $process->run();
-        if (!$process->isSuccessful()) throw new ProcessFailedException($process);
-        $this->io->text("<info>Tag pushed to origin</info>");
+        // Gets the latest version tag || empty if none
+        $this->io->title("Getting you the latest version");
+        $latest_version = $this->get_latest_version();
+        $this->io->text([
+            "<info>Latest Version:</info> {$latest_version}"
+        ]);
     }
 
     private function get_latest_version()
@@ -137,22 +109,27 @@ class PublishCommand extends Command
         return !empty($tag) || $tag !== "" ? ltrim($tag, 'v') : "No versions created";
     }
 
-    private function is_clean_working_tree()
+    /**
+     * @param string $bump_type
+     * @throws Exception
+     */
+    private function update_version(string $bump_type)
     {
-        $process = Process::fromShellCommandline('[[ -n $(git status) ]] || echo clean');
-        $process->run();
-        if (!$process->isSuccessful()) throw new ProcessFailedException($process);
-        return trim($process->getOutput()) === "clean";
-    }
+        $this->io->title("Generating next {$bump_type} release");
+        $latest = $this->get_latest_version();
+        // remove pre-release or build metadata
+        $latest = strtok($latest, '-');
+        list($major, $minor, $patch) = explode('.', $latest);
+        $$bump_type = (int)$$bump_type + 1;
+        $new_version = implode(".", [$major, $minor, $patch]);
 
-    private function action_get()
-    {
-        // Gets the latest version tag || empty if none
-        $this->io->title("Getting you the latest version");
-        $latest_version = $this->get_latest_version();
-        $this->io->text([
-            "<info>Latest Version:</info> {$latest_version}"
-        ]);
+        if ($this->pre_release) $new_version .= "-" . $this->pre_release;
+
+        if (!($this->dry_run)) {
+            $this->update_plugin_info($new_version);
+            $this->create_tag($new_version);
+        }
+        $this->io->text("<info>New version:</info> $new_version");
     }
 
     /**
@@ -162,11 +139,11 @@ class PublishCommand extends Command
     private function update_plugin_info($new_version)
     {
         $config = $this->get_config();
-        $plugin_file =  dirname(__FILE__, 2).DIRECTORY_SEPARATOR.$config['plugin_file'];
-        if (!file_exists($plugin_file)) throw new Exception($plugin_file." not found ");
+        $plugin_file = dirname(__FILE__, 2) . DIRECTORY_SEPARATOR . $config['plugin_file'];
+        if (!file_exists($plugin_file)) throw new Exception($plugin_file . " not found ");
         $regex_pattern = "/(?<=(\*\ Version:))(\s+)(.*)/m";
         $plugin_file_contents = file_get_contents($plugin_file);
-        $plugin_file_contents = preg_replace($regex_pattern, '\\2 '.$new_version, $plugin_file_contents);
+        $plugin_file_contents = preg_replace($regex_pattern, '\\2 ' . $new_version, $plugin_file_contents);
         file_put_contents($plugin_file, $plugin_file_contents);
         $this->io->text("<info>Updated version in plugin file</info>");
 
@@ -184,13 +161,36 @@ class PublishCommand extends Command
      */
     private function get_config()
     {
-        $config_file = dirname(__FILE__) .DIRECTORY_SEPARATOR .'config.json';
+        $config_file = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'config.json';
         if (!file_exists($config_file)) throw new Exception("Missing config.json");
         $config = json_decode(file_get_contents($config_file), true);
 
         $required_keys = ['github_username', 'github_repo', 'authorize_token', "plugin_file"];
         $intersect = array_intersect($required_keys, array_keys($config));
-        if (count($intersect) !== count($required_keys)) throw new Exception("Ensure you have a valid config.json with all required keys ".json_encode($required_keys));
+        if (count($intersect) !== count($required_keys)) throw new Exception("Ensure you have a valid config.json with all required keys " . json_encode($required_keys));
         return $config;
+    }
+
+    private function create_tag(string $new_version)
+    {
+        $this->io->text("<info>Creating new tag...</info>");
+        $process = Process::fromShellCommandline("git tag v{$new_version}");
+        $process->run();
+        if (!$process->isSuccessful()) throw new ProcessFailedException($process);
+        $this->io->text("Created tag: v{$new_version}");
+
+        $this->io->text("<info>Pushing changes upstream...</info>");
+        $process = Process::fromShellCommandline("git push origin v{$new_version}");
+        $process->run();
+        if (!$process->isSuccessful()) throw new ProcessFailedException($process);
+        $this->io->text("<info>Tag pushed to origin</info>");
+    }
+
+    private function is_clean_working_tree()
+    {
+        $process = Process::fromShellCommandline('[[ -n $(git status) ]] || echo clean');
+        $process->run();
+        if (!$process->isSuccessful()) throw new ProcessFailedException($process);
+        return trim($process->getOutput()) === "clean";
     }
 }

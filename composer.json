@@ -13,9 +13,16 @@
   },
   "autoload": {
     "psr-4": {
-      "Slash\\": "./inc",
-      "ConsoleCommands\\": "./console_app/commands"
+      "Slash\\": "./inc"
     }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "ConsoleCommands\\": "./console_app/Commands"
+    },
+    "files": [
+      "./console_app/common.php"
+    ]
   },
   "require-dev": {
     "symfony/console": "^5.0",
