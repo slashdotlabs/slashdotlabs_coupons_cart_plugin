@@ -4,8 +4,8 @@
 namespace ConsoleCommands\Helpers;
 
 
+use ConsoleCommands\PublishCommand;
 use Exception;
-use Symfony\Component\Console\Style\SymfonyStyle;
 
 class InfoUpdaterHelper
 {
@@ -15,13 +15,12 @@ class InfoUpdaterHelper
 
     /**
      * InfoUpdaterHelper constructor.
-     * @param SymfonyStyle $io
-     * @throws Exception
+     * @param PublishCommand $command
      */
-    public function __construct(SymfonyStyle $io)
+    public function __construct(PublishCommand $command)
     {
-        $this->io = $io;
-        $this->git_helper = new GitHelper($io);
+        $this->io = $$command->io;
+        $this->git_helper = $command->git_helper;
 
     }
 
@@ -51,7 +50,11 @@ class InfoUpdaterHelper
 
     public function partial_changelog_update(string $new_version)
     {
-        // TODO:
+        /**
+         * For now you are prompted to update the changelog without out any automated
+         * changes.
+         */
+
     }
 
 }

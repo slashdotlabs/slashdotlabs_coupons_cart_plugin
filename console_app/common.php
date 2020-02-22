@@ -8,7 +8,6 @@ if (!function_exists('console_app_config'))
      */
     function console_app_config(): array
     {
-        //TODO: swich to env variables instead
         $config_file = dirname(__FILE__).DIRECTORY_SEPARATOR."config.json";
         if (!file_exists($config_file)) throw new Exception($config_file." file not found ");
         $config = json_decode(file_get_contents($config_file));

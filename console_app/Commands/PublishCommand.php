@@ -2,6 +2,9 @@
 
 namespace ConsoleCommands;
 
+use ConsoleCommands\Helpers\ActionHelper;
+use ConsoleCommands\Helpers\GitHelper;
+use ConsoleCommands\Helpers\InfoUpdaterHelper;
 use Exception;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -15,14 +18,18 @@ use Symfony\Component\Process\Process;
 class PublishCommand extends Command
 {
     protected static $defaultName = "publish";
-    private $dry_run;
-    private $pre_release;
+    public $dry_run;
+    public $pre_release;
 
-    /**
-     * @var SymfonyStyle
-     */
-    private $io;
-    
+    /** @var SymfonyStyle */
+    public $io;
+    /** @var GitHelper */
+    public $git_helper;
+    /** @var ActionHelper */
+    public $action_helper;
+    /** @var InfoUpdaterHelper */
+    public $info_update_helper;
+
 
     protected function configure()
     {
@@ -50,9 +57,20 @@ class PublishCommand extends Command
         $this->addArgument('action', InputArgument::REQUIRED, 'Action you want to run');
     }
 
+    /**
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return int
+     * @throws Exception
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        // init all tools
         $this->io = new SymfonyStyle($input, $output);
+        $this->git_helper = new GitHelper($this);
+        $this->action_helper = new ActionHelper($this);
+        $this->info_update_helper = new InfoUpdaterHelper($this);
+
         try {
 //            if(!$this->is_clean_working_tree()) throw new Exception("Ensure you have a clean working tree first.");
 

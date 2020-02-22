@@ -4,6 +4,7 @@
 namespace ConsoleCommands\Helpers;
 
 
+use ConsoleCommands\PublishCommand;
 use Exception;
 use GuzzleHttp\Client;
 use Psr\Http\Message\StreamInterface;
@@ -20,15 +21,17 @@ class GitHelper
 
     /** @var SymfonyStyle */
     private $io;
+    private $command;
 
     /**
      * GitHelper constructor.
-     * @param SymfonyStyle $io
+     * @param PublishCommand $command
      * @throws Exception
      */
-    public function __construct(SymfonyStyle $io)
+    public function __construct(PublishCommand $command)
     {
-        $this->io = $io;
+        $this->command = $command;
+        $this->io = $command->io;
 
         $config = console_app_config();
         $this->repo = $config['github_repo'];
@@ -67,11 +70,6 @@ class GitHelper
         $this->io->comment($command);
         $process = ProcessHelper::run($command);
         $this->io->text($process->getOutput());
-    }
-
-    public function checkout_to_release()
-    {
-        $this->checkout($this->release_branch, false);
     }
 
     public function delete_branch(string $branch)
