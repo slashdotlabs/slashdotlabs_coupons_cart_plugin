@@ -28,6 +28,7 @@
     "symfony/console": "^5.0",
     "symfony/process": "^5.0",
     "guzzlehttp/guzzle": "~6.0",
-    "caseyamcl/guzzle_retry_middleware": "^2.3"
+    "caseyamcl/guzzle_retry_middleware": "^2.3",
+    "symfony/dotenv": "^5.0"
   }
 }

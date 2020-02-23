@@ -4,6 +4,8 @@
 
 namespace Composer\Autoload;
 
+use Closure;
+
 class ComposerStaticInit66482d7a38391021e84a6a2de807e8a6
 {
     public static $files = array (
@@ -29,6 +31,7 @@ class ComposerStaticInit66482d7a38391021e84a6a2de807e8a6
             'Symfony\\Polyfill\\Ctype\\' => 23,
             'Symfony\\Contracts\\Service\\' => 26,
             'Symfony\\Component\\Process\\' => 26,
+            'Symfony\\Component\\Dotenv\\' => 25,
             'Symfony\\Component\\Console\\' => 26,
             'Slash\\' => 6,
         ),
@@ -75,6 +78,10 @@ class ComposerStaticInit66482d7a38391021e84a6a2de807e8a6
         array (
             0 => __DIR__ . '/..' . '/symfony/process',
         ),
+        'Symfony\\Component\\Dotenv\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/dotenv',
+        ),
         'Symfony\\Component\\Console\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/console',
@@ -119,7 +126,7 @@ class ComposerStaticInit66482d7a38391021e84a6a2de807e8a6
 
     public static function getInitializer(ClassLoader $loader)
     {
-        return \Closure::bind(function () use ($loader) {
+        return Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit66482d7a38391021e84a6a2de807e8a6::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit66482d7a38391021e84a6a2de807e8a6::$prefixDirsPsr4;
             $loader->classMap = ComposerStaticInit66482d7a38391021e84a6a2de807e8a6::$classMap;

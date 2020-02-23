@@ -12,6 +12,7 @@ return array(
     'Symfony\\Polyfill\\Ctype\\' => array($vendorDir . '/symfony/polyfill-ctype'),
     'Symfony\\Contracts\\Service\\' => array($vendorDir . '/symfony/service-contracts'),
     'Symfony\\Component\\Process\\' => array($vendorDir . '/symfony/process'),
+    'Symfony\\Component\\Dotenv\\' => array($vendorDir . '/symfony/dotenv'),
     'Symfony\\Component\\Console\\' => array($vendorDir . '/symfony/console'),
     'Slash\\' => array($baseDir . '/inc'),
     'Psr\\Http\\Message\\' => array($vendorDir . '/psr/http-message/src'),

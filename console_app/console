@@ -4,11 +4,14 @@
 
 use ConsoleApp\Commands\PublishCommand;
 use Symfony\Component\Console\Application;
+use Symfony\Component\Dotenv\Dotenv;
 
 if (file_exists(dirname(__FILE__, 2) . '/vendor/autoload.php')) {
     require_once dirname(__FILE__, 2) . '/vendor/autoload.php';
 }
 
+$dotenv = new Dotenv();
+$dotenv->load(__DIR__ .DIRECTORY_SEPARATOR.'.env');
 
 $application = new Application();
 
