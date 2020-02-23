@@ -55,6 +55,7 @@ class DeleteCommand extends Command
     {
         $this->io = new SymfonyStyle($input, $output);
         try {
+            $this->delete_tags();
             foreach ($this->get_all_draft_releases() as $release) {
                 $this->delete_release($release);
             }
@@ -104,13 +105,7 @@ class DeleteCommand extends Command
     private function delete_tags()
     {
         $tags = [
-            'v1.0.1-test',
-            'v1.0.2-test',
-            'v1.0.3-test',
-            'v1.0.4-test',
-            'v1.0.5-test',
-            'v1.0.6-test',
-            'v1.1.0', 'v1.2.0'
+            'v1.1.0',
         ];
         foreach ($tags as $tag) {
             $command = "git tag -d $tag";

@@ -57,6 +57,11 @@ class ActionHelper
         $this->command->io->text("<info>New version:</info> $new_version");
     }
 
+    /**
+     * @param string $bump_type
+     * @return string
+     * @throws Exception
+     */
     private function bump_verion(string $bump_type)
     {
         $this->command->io->title("Generating next {$bump_type} release");

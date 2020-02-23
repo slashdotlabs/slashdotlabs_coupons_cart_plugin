@@ -52,7 +52,7 @@ class InfoUpdaterHelper
         $this->backup_file($plugin_file);
         $regex_pattern = "/(?<=(\*\ Version:))(\s+)(.*)/m";
         $plugin_file_contents = file_get_contents($plugin_file);
-        $plugin_file_contents = preg_replace($regex_pattern, "%%tab%%" . $new_version, $plugin_file_contents);
+        $plugin_file_contents = preg_replace($regex_pattern, "\t" . $new_version, $plugin_file_contents);
         file_put_contents($plugin_file, $plugin_file_contents);
         $this->remove_backup($plugin_file);
         $this->io->text("<info>Updated version in plugin file</info>");
