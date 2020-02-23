@@ -5,7 +5,7 @@
  * Plugin Name:       Coupons Cart
  * Plugin URI:         https://github.com/slashdotlabs/slashdotlabs_coupons_cart_plugin
  * Description:       Integrates a form linked to iPayafrica payment gateway
- * Version:            1.0.2-test
+ * Version:             1.0.2-test
  * Requires at least: 5.2
  * Requires PHP:      7.3
  * Author:            Slash Dot Labs Limited
