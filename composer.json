@@ -19,10 +19,7 @@
   "autoload-dev": {
     "psr-4": {
       "ConsoleApp\\": "./console_app"
-    },
-    "files": [
-      "./console_app/common.php"
-    ]
+    }
   },
   "require-dev": {
     "symfony/console": "^5.0",
