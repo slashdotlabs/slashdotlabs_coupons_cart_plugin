@@ -14,7 +14,7 @@ package-lock.json export-ignore
 # dev tools
 tailwind.config.js export-ignore
 postcss.config.js export-ignore
-src export-ignore
+./src export-ignore
 
 # publisher script
 console_app/ export-ignore
