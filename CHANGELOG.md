@@ -3,7 +3,7 @@ All major changes to this project will be listed here.
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.1.0] - 2020-02-20
+## [1.1.0] - 2020-02-23
 ### Features
 - Update checker from the releases on our servers
 
