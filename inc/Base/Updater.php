@@ -52,7 +52,7 @@ class Updater extends BaseController
 
             $out_of_date = version_compare(
                 $this->get_version_number($this->remote_data['version']),
-                $this->get_version_number($checked[$this->plugin_name]), '>='
+                $this->get_version_number($checked[$this->plugin_name]), 'gt'
             ); // Check if we're out of date
 
             if ($out_of_date) {
@@ -115,7 +115,8 @@ class Updater extends BaseController
             'homepage' => $this->plugin_data["PluginURI"],
             'short_description' => $this->plugin_data["Description"],
             'download_link' => $this->remote_data['download_url'],
-            'trunk' => $this->remote_data['download_url']
+            'trunk' => $this->remote_data['download_url'],
+            'sections' => $this->remote_data['sections']
         ];
     }
 
