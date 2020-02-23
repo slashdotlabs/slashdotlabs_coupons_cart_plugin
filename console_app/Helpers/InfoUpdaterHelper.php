@@ -57,8 +57,10 @@ class InfoUpdaterHelper
         $this->remove_backup($plugin_file);
         $this->io->text("<info>Updated version in plugin file</info>");
 
-        // Commit change to file
-        $this->git_helper->commit_file($plugin_file, "chore: Bumped up plugin version in file");
+        if ($this->git_helper->is_modified($plugin_file)) {
+            // Commit change to file
+            $this->git_helper->commit_file($plugin_file, "chore: Bumped up plugin version in file");
+        }
     }
 
     private function backup_file($file)
@@ -96,6 +98,7 @@ class InfoUpdaterHelper
         $this->io->text("<info>Updating info.json with new release information...</info>");
         file_put_contents($info_json_file, json_encode($info_content, JSON_UNESCAPED_SLASHES));
         $this->remove_backup($info_json_file);
+
         // commit changes
         $this->git_helper->commit_file($info_json_file, "chore: Updating info on latest plugin");
         // push to remote
