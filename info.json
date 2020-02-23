@@ -1,1 +1,13 @@
-{"download_url":"https://api.github.com/repos/slashdotlabs/slashdotlabs_coupons_cart_plugin/zipball/v1.0.2-test","version":"1.0.2-test","requires_php":"7.2","requires":"5.0","tested":"5.3.2","last_updated":"2020-02-23 01:50:42","author":"Slash Dot Labs","author_homepage":"https://slashdotlabs.com"}
+{
+  "download_url": "https://api.github.com/repos/slashdotlabs/slashdotlabs_coupons_cart_plugin/zipball/v1.0.2-test",
+  "version": "1.0.2-test",
+  "requires_php": "7.2",
+  "requires": "5.0",
+  "tested": "5.3.2",
+  "last_updated": "2020-02-23 01:50:42",
+  "author": "Slash Dot Labs",
+  "author_homepage": "https://slashdotlabs.com",
+  "sections" : {
+    "changelog": "Changes"
+  }
+}
