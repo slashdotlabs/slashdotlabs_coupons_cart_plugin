@@ -1,5 +1,66 @@
 [
     {
+        "name": "caseyamcl/guzzle_retry_middleware",
+        "version": "v2.3.2",
+        "version_normalized": "2.3.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/caseyamcl/guzzle_retry_middleware.git",
+            "reference": "e591e4b4b7cd0644716cd83e5f9fcf78c26f4aa2"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/caseyamcl/guzzle_retry_middleware/zipball/e591e4b4b7cd0644716cd83e5f9fcf78c26f4aa2",
+            "reference": "e591e4b4b7cd0644716cd83e5f9fcf78c26f4aa2",
+            "shasum": ""
+        },
+        "require": {
+            "guzzlehttp/guzzle": "^6.3 || ^7.0",
+            "php": "^7.1"
+        },
+        "require-dev": {
+            "nesbot/carbon": "^2.0",
+            "phpunit/phpunit": "^7.0",
+            "squizlabs/php_codesniffer": "^3.5"
+        },
+        "time": "2020-01-27T17:11:00+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.0-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "GuzzleRetry\\": "src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Casey McLaughlin",
+                "email": "caseyamcl@gmail.com",
+                "homepage": "https://caseymclaughlin.com",
+                "role": "Developer"
+            }
+        ],
+        "description": "Guzzle middleware that handles HTTP Retry-After middleware",
+        "homepage": "https://github.com/caseyamcl/guzzle_retry_middleware",
+        "keywords": [
+            "Guzzle",
+            "back-off",
+            "caseyamcl",
+            "guzzle_retry_middleware",
+            "middleware",
+            "retry",
+            "retry-after"
+        ]
+    },
+    {
         "name": "guzzlehttp/guzzle",
         "version": "6.5.2",
         "version_normalized": "6.5.2.0",

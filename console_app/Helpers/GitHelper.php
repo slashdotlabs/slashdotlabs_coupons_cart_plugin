@@ -7,6 +7,8 @@ namespace ConsoleApp\Helpers;
 use ConsoleApp\Commands\PublishCommand;
 use Exception;
 use GuzzleHttp\Client;
+use GuzzleHttp\HandlerStack;
+use GuzzleRetry\GuzzleRetryMiddleware;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 class GitHelper
@@ -17,10 +19,12 @@ class GitHelper
     public $remote;
     public $dev_branch;
     public $release_branch;
+    private $command;
 
     /** @var SymfonyStyle */
     private $io;
-    private $command;
+    /** @var Client */
+    private $client;
 
     /**
      * GitHelper constructor.
@@ -39,16 +43,29 @@ class GitHelper
         $this->remote = $config['remote'];
         $this->dev_branch = $config['dev_branch'];
         $this->release_branch = $config['release_branch'];
+
+        $stack = HandlerStack::create();
+        $stack->push(GuzzleRetryMiddleware::factory());
+
+        $this->client = new Client(['handler' => $stack, 'base_uri' => "https://api.github.com"]);
     }
 
+    /**
+     * @return string
+     * @throws Exception
+     */
     public function get_latest_version(): string
     {
-        $this->fetch_remote();
-
-        // Get latest tag
-        $process = ProcessHelper::run("git describe --abbrev=0 --tags");
-        $tag = $process->getOutput();
-        return !empty($tag) || $tag !== "" ? ltrim($tag, 'v') : "No versions created";
+        $this->io->text("<info>Fetching all releases ...</info>");
+        $res = $this->client->get("/repos/$this->username/$this->repo/releases", [
+            'headers' => [
+                'Accept' => 'application/vnd.github.v3raw+json',
+            ]
+        ]);
+        if ($res->getStatusCode() !== 200) throw new Exception("Could not reach remote to create release");
+        $releases = json_decode($res->getBody()->getContents(), true);
+        if (count($releases) === 0 || empty($releases)) return "No versions created";
+        return ltrim($releases[0]['tag_name'], 'v');
     }
 
     public function fetch_remote()
@@ -147,8 +164,7 @@ class GitHelper
     public function create_release(string $tag_name, bool $pre_release = false)
     {
         $this->io->text("<info>Creating release ...</info>");
-        $client = new Client(['base_uri' => "https://api.github.com"]);
-        $res = $client->post("/repos/$this->username/$this->repo/releases", [
+        $res = $this->client->post("/repos/$this->username/$this->repo/releases", [
             'headers' => [
                 'Accept' => 'application/vnd.github.v3raw+json',
                 'Authorization' => "token $this->authorize_token",
