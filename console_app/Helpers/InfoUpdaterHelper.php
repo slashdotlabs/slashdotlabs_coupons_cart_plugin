@@ -6,6 +6,7 @@ namespace ConsoleApp\Helpers;
 
 use ConsoleApp\Commands\PublishCommand;
 use Exception;
+use Parsedown;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
@@ -109,7 +110,8 @@ class InfoUpdaterHelper
     {
         $changelog_file = dirname(__FILE__, 3) . DIRECTORY_SEPARATOR . 'CHANGELOG.md';
         if (!file_exists($changelog_file)) throw new Exception($changelog_file . " not found ");
-        return file_get_contents($changelog_file);
+        $parser = new Parsedown();
+        return $parser->text(file_get_contents($changelog_file));
     }
 
     public function partial_changelog_update(string $new_version)
