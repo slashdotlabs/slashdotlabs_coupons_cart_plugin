@@ -114,6 +114,10 @@ class InfoUpdaterHelper
         return $parser->text(file_get_contents($changelog_file));
     }
 
+    /**
+     * @param string $new_version
+     * @throws Exception
+     */
     public function partial_changelog_update(string $new_version)
     {
         /**
@@ -124,6 +128,14 @@ class InfoUpdaterHelper
         $question = new ConfirmationQuestion("Press any key to continue...", true);
         // Doesn't matter what the response is
         $this->command->question_helper->ask($this->input, $this->output, $question);
+
+        // check if file is modified
+        $changelog_file = dirname(__FILE__, 3) . DIRECTORY_SEPARATOR . 'CHANGELOG.md';
+        if (!file_exists($changelog_file)) throw new Exception($changelog_file . " not found ");
+        if ($this->git_helper->is_modified($changelog_file)) {
+            // commit change
+            $this->git_helper->commit_file($changelog_file, "docs(changelog): Description on new version");
+        }
     }
 
 }

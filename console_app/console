@@ -2,6 +2,7 @@
 <?php
 
 
+use ConsoleApp\Commands\DeleteCommand;
 use ConsoleApp\Commands\PublishCommand;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Dotenv\Dotenv;
@@ -20,7 +21,7 @@ $application = new Application();
 // Register commands
 $application->addCommands([
     new PublishCommand(),
-//    new DeleteCommand()
+    new DeleteCommand()
 ]);
 
 try {

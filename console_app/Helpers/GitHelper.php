@@ -10,6 +10,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
 use GuzzleRetry\GuzzleRetryMiddleware;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Process\Process;
 
 class GitHelper
 {
@@ -179,5 +180,14 @@ class GitHelper
         ]);
         if ($res->getStatusCode() !== 201) throw new Exception("Could not reach remote to create release");
         return json_decode($res->getBody()->getContents(), true);
+    }
+
+    public function  is_modified(string $file): bool
+    {
+        $command = "git diff --exit-code $file";
+        $this->io->text("Checking if ".basename($file)." is modified...");
+        $process = $process = Process::fromShellCommandline($command);
+        $process->run();
+        return  $process->getExitCode();
     }
 }
