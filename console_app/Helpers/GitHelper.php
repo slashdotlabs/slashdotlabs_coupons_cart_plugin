@@ -59,7 +59,7 @@ class GitHelper
 
     public function is_clean_working_tree(): bool
     {
-        $process = ProcessHelper::run('[[ -n $(git status) ]] || echo clean');
+        $process = ProcessHelper::run('[[ -n $(git status --porcelain) ]] || echo clean');
         return trim($process->getOutput()) === "clean";
     }
 
