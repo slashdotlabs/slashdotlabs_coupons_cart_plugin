@@ -81,7 +81,7 @@ class InfoUpdaterHelper
         // commit changes
         $this->git_helper->commit_file($info_json_file, "chore: Updating info on latest plugin");
         // push to remote
-        $this->git_helper->push_to_remote($this->git_helper->remote);
+        $this->git_helper->push_to_remote($this->git_helper->dev_branch);
     }
 
     public function partial_changelog_update(string $new_version)
