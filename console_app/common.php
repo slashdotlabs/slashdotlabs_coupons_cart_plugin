@@ -10,7 +10,7 @@ if (!function_exists('console_app_config'))
     {
         $config_file = dirname(__FILE__).DIRECTORY_SEPARATOR."config.json";
         if (!file_exists($config_file)) throw new Exception($config_file." file not found ");
-        $config = json_decode(file_get_contents($config_file));
+        $config = json_decode(file_get_contents($config_file), true);
 
         $required_keys = ['github_username', 'github_repo', 'authorize_token', 'remote', 'dev_branch', 'release_branch', 'plugin_file'];
         $intersect = array_intersect($required_keys, array_keys($config));

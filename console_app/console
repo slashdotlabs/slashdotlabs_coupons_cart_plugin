@@ -2,7 +2,7 @@
 <?php
 
 
-use ConsoleCommands\PublishCommand;
+use ConsoleApp\Commands\PublishCommand;
 use Symfony\Component\Console\Application;
 
 if (file_exists(dirname(__FILE__, 2) . '/vendor/autoload.php')) {

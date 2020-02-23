@@ -1,7 +1,7 @@
 <?php
 
 
-namespace ConsoleCommands\Helpers;
+namespace ConsoleApp\Helpers;
 
 
 use Symfony\Component\Process\Exception\ProcessFailedException;

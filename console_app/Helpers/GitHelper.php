@@ -1,13 +1,12 @@
 <?php
 
 
-namespace ConsoleCommands\Helpers;
+namespace ConsoleApp\Helpers;
 
 
-use ConsoleCommands\PublishCommand;
+use ConsoleApp\Commands\PublishCommand;
 use Exception;
 use GuzzleHttp\Client;
-use Psr\Http\Message\StreamInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 class GitHelper
@@ -142,20 +141,19 @@ class GitHelper
     /**
      * @param string $tag_name
      * @param bool $pre_release
-     * @return StreamInterface
+     * @return array
      * @throws Exception
      */
     public function create_release(string $tag_name, bool $pre_release = false)
     {
-        $endpoint = "/repos/$this->username/$this->username/releases";
-        $headers = [
-            'Accept' => 'application/vnd.github.v3raw+json',
-            'Authorization' => 'token ' . $this->authorize_token,
-        ];
+        $this->io->text("<info>Creating release ...</info>");
         $client = new Client(['base_uri' => "https://api.github.com"]);
-        $res = $client->post($endpoint, [
-            'headers' => $headers,
-            'body' => [
+        $res = $client->post("/repos/$this->username/$this->repo/releases", [
+            'headers' => [
+                'Accept' => 'application/vnd.github.v3raw+json',
+                'Authorization' => "token $this->authorize_token",
+            ],
+            'json' => [
                 "tag_name" => $tag_name,
                 "name" => $tag_name,
                 "body" => "Release $tag_name",
@@ -163,7 +161,7 @@ class GitHelper
                 "prerelease" => $pre_release
             ]
         ]);
-        if ($res->getStatusCode() !== 200) throw new Exception("Could not reach remote to create release");
-        return $res->getBody();
+        if ($res->getStatusCode() !== 201) throw new Exception("Could not reach remote to create release");
+        return json_decode($res->getBody()->getContents(), true);
     }
 }

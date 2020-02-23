@@ -47,7 +47,7 @@ class ComposerStaticInit66482d7a38391021e84a6a2de807e8a6
         ),
         'C' => 
         array (
-            'ConsoleCommands\\' => 16,
+            'ConsoleApp\\' => 11,
         ),
     );
 
@@ -104,9 +104,9 @@ class ComposerStaticInit66482d7a38391021e84a6a2de807e8a6
         array (
             0 => __DIR__ . '/..' . '/guzzlehttp/guzzle/src',
         ),
-        'ConsoleCommands\\' => 
+        'ConsoleApp\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/console_app/Commands',
+            0 => __DIR__ . '/../..' . '/console_app',
         ),
     );
 
