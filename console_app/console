@@ -10,15 +10,18 @@ if (file_exists(dirname(__FILE__, 2) . '/vendor/autoload.php')) {
     require_once dirname(__FILE__, 2) . '/vendor/autoload.php';
 }
 
-require_once __DIR__.DIRECTORY_SEPARATOR.'common.php';
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'common.php';
 
 $dotenv = new Dotenv();
-$dotenv->load(__DIR__ .DIRECTORY_SEPARATOR.'.env');
+$dotenv->load(__DIR__ . DIRECTORY_SEPARATOR . '.env');
 
 $application = new Application();
 
 // Register commands
-$application->add(new PublishCommand());
+$application->addCommands([
+    new PublishCommand(),
+//    new DeleteCommand()
+]);
 
 try {
     $application->run();

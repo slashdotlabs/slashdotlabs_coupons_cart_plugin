@@ -16,20 +16,15 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 class PublishCommand extends Command
 {
-    protected static $defaultName = "publish";
+    protected static string $defaultName = "publish";
     public $dry_run;
     public $pre_release;
 
-    /** @var SymfonyStyle */
-    public $io;
-    /** @var GitHelper */
-    public $git_helper;
-    /** @var ActionHelper */
-    public $action_helper;
-    /** @var InfoUpdaterHelper */
-    public $info_update_helper;
-    /** @var QuestionHelper */
-    public $question_helper;
+    public SymfonyStyle $io;
+    public GitHelper $git_helper;
+    public ActionHelper $action_helper;
+    public InfoUpdaterHelper $info_update_helper;
+    public QuestionHelper $question_helper;
 
 
     protected function configure()

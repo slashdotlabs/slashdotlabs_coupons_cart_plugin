@@ -42,7 +42,7 @@ class Command
     /**
      * @var string|null The default command name
      */
-    protected static $defaultName;
+    protected static string $defaultName;
 
     private $application;
     private $name;
