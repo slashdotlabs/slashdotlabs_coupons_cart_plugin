@@ -15,6 +15,7 @@
             <th>Paid On</th>
             <th>Status</th>
             <th>Coupon</th>
+            <th>EXTRA INFORMATION</th>
         </tr>
         </thead>
         <tbody>
@@ -33,6 +34,7 @@
                 <span class="badge badge-{{ attribute(status_badges_map, payment.status) }}">{{ payment.status }}</span>
             </td>
             <td class="align-middle" nowrap>{{ payment.customer_coupon }}</td>
+            <td class="align-middle">{{ payment.additional_information|default('N/A') }}</td>
         </tr>
         {% endfor %}
 

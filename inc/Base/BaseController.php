@@ -39,7 +39,8 @@ abstract class BaseController
             [
                 'address_from_name' => ['Sender Username','e.g. Coupons Cart'],
                 'address_from_email' => ['Sender Email Address','e.g. couponscart@mail.com'],
-            ],   
+                'internal_to_email' => ['Internal Notification Email','e.g. inof@promo.ke'],
+            ],
             'smtp'=>
             [
                 'settings' => ['Set SMTP Settings', '', 'toggle'],

@@ -54,12 +54,15 @@ class AdminCallbacks extends BaseController
     {
         $output = get_option('coupons_plugin');
 
+        $output['ipay'] = [];
         $output["ipay"]["live"] = isset($input["ipay"]["live"]) ? true : false;
         $output["ipay"]["vendor_id"] = $input["ipay"]["vendor_id"];
         $output["ipay"]["hashkey"] = $input["ipay"]["hashkey"];
 
         $output["mail"]["address_from_name"] = $input["mail"]["address_from_name"];
         is_email($input['mail']['address_from_email']) ? $output['mail']['address_from_email'] = $input['mail']['address_from_email'] :
+            add_settings_error('coupons_plugin', 'invalid-email', 'Enter a valid e-mail address.');
+        is_email($input['mail']['internal_to_email']) ? $output['mail']['internal_to_email'] = $input['mail']['internal_to_email'] :
             add_settings_error('coupons_plugin', 'invalid-email', 'Enter a valid e-mail address.');
 
         $output["smtp"]["server"] = $input["smtp"]["server"];

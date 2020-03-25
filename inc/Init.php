@@ -35,7 +35,6 @@ final class Init
                 $service->register();
             }
         }
-
     }
 
     /**

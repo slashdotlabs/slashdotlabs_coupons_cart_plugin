@@ -19,29 +19,26 @@ class Migrations
         $tblname = 'payments';
         $wp_payments_table = $table_prefix . "$tblname ";
 
-        // Check to see if the table exists already, if not, then create it
+        $sql = "CREATE TABLE $wp_payments_table(
+        id int AUTO_INCREMENT NOT NULL,
+        fname varchar(125) NOT NULL,
+        lname varchar(125) NOT NULL,
+        email varchar(125) NOT NULL,
+        phone varchar(125) NOT NULL,
+        order_id varchar(255) NOT NULL,
+        coupon_id int NOT NULL,
+        customer_coupon varchar(255) NULL,
+        amount double(8,2) NOT NULL,
+        transaction_ref varchar(125) NULL,
+        payment_type varchar(125) NULL,
+        payment_date timestamp NULL,
+        additional_information text NULL,
+        status ENUM('initiated', 'cancelled', 'completed') DEFAULT 'initiated',
+        PRIMARY KEY  (id)
+        ) $charset_collate;";
 
-        if ($wpdb->get_var("show tables like '$wp_payments_table'") != $wp_payments_table) {
-            $sql = "CREATE TABLE $wp_payments_table(
-	    	id int AUTO_INCREMENT NOT NULL,
-	    	fname varchar(125) NOT NULL,
-	    	lname varchar(125) NOT NULL,
-	    	email varchar(125) NOT NULL,
-	    	phone varchar(125) NOT NULL,
-	    	order_id varchar(255) NOT NULL,
-	    	coupon_id int NOT NULL,
-	    	customer_coupon varchar(255) NULL,
-	    	amount double(8,2) NOT NULL,
-	    	transaction_ref varchar(125) NULL,
-	    	payment_type varchar(125) NULL,
-	    	payment_date timestamp NULL,
-	    	status ENUM('initiated', 'cancelled', 'completed') DEFAULT 'initiated',
-	    	PRIMARY KEY  (id)
-	    	) $charset_collate;";
-
-            require_once(ABSPATH . '/wp-admin/includes/upgrade.php');
-            dbDelta($sql);
-        }
+        require_once(ABSPATH . '/wp-admin/includes/upgrade.php');
+        dbDelta($sql);
     }
 
     /**

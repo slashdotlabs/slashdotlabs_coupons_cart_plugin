@@ -3,6 +3,11 @@ All major changes to this project will be listed here.
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] - 2020-03-26
+### Features
+- New Additional information field on coupon form
+- Internal email sent after coupon purchase
+
 ## [1.1.0] - 2020-02-23
 ### Features
 - Update checker from the releases on our servers
@@ -17,5 +22,6 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Payments page for record summary
 
 
+[1.2.0]: https://github.com/slashdotlabs/slashdotlabs_coupons_cart_plugin/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/slashdotlabs/slashdotlabs_coupons_cart_plugin/compare/v1.0.0-beta...v1.1.0
 [1.0.0-beta]: https://github.com/slashdotlabs/slashdotlabs_coupons_cart_plugin/releases/tag/v1.0.0-beta

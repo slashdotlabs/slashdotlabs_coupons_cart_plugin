@@ -77,7 +77,8 @@ class ReedemForm extends BaseController
             'coupon_id' => $data['coupon_id'],
             'amount' => $data['coupon_price'],
             'customer_coupon' => $data['coupon_name']." - ".$order_id,
-            'order_id' => $order_id
+            'order_id' => $order_id,
+            'additional_information' => $data['additional_information'],
         ];
         $inserted = $paymentsModel->insert($insert_data);
         if(!$inserted) wp_send_json_error(['msg' => 'Could not process request. Try again later']);
