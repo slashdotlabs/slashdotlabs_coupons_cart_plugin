@@ -54,6 +54,7 @@ class AdminCallbacks extends BaseController
     {
         $output = get_option('coupons_plugin');
 
+        $output['ipay'] = [];
         $output["ipay"]["live"] = isset($input["ipay"]["live"]) ? true : false;
         $output["ipay"]["vendor_id"] = $input["ipay"]["vendor_id"];
         $output["ipay"]["hashkey"] = $input["ipay"]["hashkey"];

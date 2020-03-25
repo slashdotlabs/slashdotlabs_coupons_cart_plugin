@@ -34,7 +34,6 @@ class Mailer
         $phpmailer->Password = $smtp_options['password'];
 
         // Additional settings…
-        $phpmailer->SMTPSecure = $smtp_options['encryption']; // Choose SSL or TLS, if necessary for your server
         $phpmailer->From = $mail_options['address_from_email'];
         $phpmailer->FromName = $mail_options['address_from_name'];
     }

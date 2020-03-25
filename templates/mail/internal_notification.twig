@@ -1,0 +1,42 @@
+<style>
+    main {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        min-height: 50vh;
+        background: #fff;
+        color: #4a5568;
+        font-family: sans, sans-serif;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    #content {
+        flex-grow: 1;
+        padding-top: 4rem;
+        margin: 0 auto;
+    }
+
+    #footer {
+        text-align: center;
+        padding: 1.75rem;
+        background: #edf2f7;
+    }
+
+
+</style>
+<main>
+    <div id="content">
+        <strong>New coupon purchase has been made</strong>
+        <p>Customer: {{ record.fname }} {{ record.lname }}</p>
+        <p>Coupon:  <strong>{{ record.customer_coupon }}</strong></p>
+        <p><strong>Additional information:</strong> <br> {{  record.additional_information }}</p>
+    </div>
+    <div id="footer">
+        <small> Copyright &copy; {{ year }} <a href="{{ copy_url|default('#') }}">{{ copy_name }}</a> {{ copy_address }}
+        </small>
+    </div>
+</main>

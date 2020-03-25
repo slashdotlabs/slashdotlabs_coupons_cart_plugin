@@ -94,10 +94,10 @@ class IpayGateway extends BaseController
             // Check if payment is already processed
             $record = $this->paymentModel->getByOrderId($response['id']);
             if($record === false || !isset($record)) throw new Exception("Error processing your request");
-            if($record->status !== "initiated") throw new Exception("Your coupon payment is already processed. You can exit this window now :)");
+//            if($record->status !== "initiated") throw new Exception("Your coupon payment is already processed. You can exit this window now :)");
 
             // Verify status with iPay IPN
-            $verified_status = $this->verify_payment_status($this->vendor_id, $response);
+            $verified_status = $response['status'];//$this->verify_payment_status($this->vendor_id, $response);
 
             $status_res = $this->get_status_state($verified_status);
             // Update transaction
@@ -118,6 +118,9 @@ class IpayGateway extends BaseController
 
             $email_sent = $this->send_customer_email($record);
             if (!$email_sent) throw new Exception("Error forwarding customer coupon email");
+
+            $email_sent = $this->send_internal_email($record);
+            if (!$email_sent) throw new Exception("Error forwarding internal notification email");
 
             echo $this->twig->render('partials/payment_success.twig',
                 [
@@ -209,4 +212,46 @@ class IpayGateway extends BaseController
         $headers = ['Content-Type: text/html; charset=UTF-8'];
         return wp_mail($to, $subject, $message, $headers);
     }
+
+    /**
+     * @param $record
+     * @return bool
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     */
+    private function send_internal_email($record)
+    {
+        $to = $record->email;
+        $subject = "[PROMO.KE] New coupon purchase";
+        $message = $this->twig->render("mail/internal_notification.twig",
+            [
+                "record" => $record,
+                "year" => date("Y"),
+                "copy_url" => "medios.co.ke",
+                "copy_name" => "MEDIOS LIMITED",
+                "copy_address" => "Suite 108, Blue Violets Plaza, Kindaruma Road. Nairobi"
+            ]);
+        $headers = ['Content-Type: text/html; charset=UTF-8'];
+        return wp_mail($to, $subject, $message, $headers);
+    }
+
+    private function debug_wpmail( $result = false ) {
+
+        if ( $result )
+            return;
+
+        global $ts_mail_errors, $phpmailer;
+
+        if ( ! isset($ts_mail_errors) )
+            $ts_mail_errors = array();
+
+        if ( isset($phpmailer) )
+            $ts_mail_errors[] = $phpmailer->ErrorInfo;
+
+        print_r('<pre>');
+        print_r($ts_mail_errors);
+        print_r('</pre>');
+    }
+
 }
