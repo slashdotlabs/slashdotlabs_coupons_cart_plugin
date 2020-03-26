@@ -105,7 +105,7 @@ class DeleteCommand extends Command
     private function delete_tags()
     {
         $tags = [
-            'v1.1.0',
+            'v1.2.1',
         ];
         foreach ($tags as $tag) {
             $command = "git tag -d $tag";
