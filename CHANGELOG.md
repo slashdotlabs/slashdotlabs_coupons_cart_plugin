@@ -6,7 +6,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ## [1.2.1] - 2020-03-26
 ### Fix
 - Update information cache time reduced to 1 minute
-- Redeem form styling
+
+### Styling
+- New customer coupon email style
+- Contact information added in internal notification
 
 ## [1.2.0] - 2020-03-25
 ### Features
@@ -27,6 +30,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Payments page for record summary
 
 
+[1.2.1]: https://github.com/slashdotlabs/slashdotlabs_coupons_cart_plugin/compare/v1.2.0...v1.2.1
 [1.2.0]: https://github.com/slashdotlabs/slashdotlabs_coupons_cart_plugin/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/slashdotlabs/slashdotlabs_coupons_cart_plugin/compare/v1.0.0-beta...v1.1.0
 [1.0.0-beta]: https://github.com/slashdotlabs/slashdotlabs_coupons_cart_plugin/releases/tag/v1.0.0-beta
