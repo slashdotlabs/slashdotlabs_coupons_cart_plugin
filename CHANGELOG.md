@@ -3,7 +3,12 @@ All major changes to this project will be listed here.
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.2.0] - 2020-03-26
+## [1.2.1] - 2020-03-26
+### Fix
+- Update information cache time reduced to 1 minute
+- Redeem form styling
+
+## [1.2.0] - 2020-03-25
 ### Features
 - New Additional information field on coupon form
 - Internal email sent after coupon purchase
