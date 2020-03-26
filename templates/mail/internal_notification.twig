@@ -32,6 +32,7 @@
     <div id="content">
         <strong>New coupon purchase has been made</strong>
         <p>Customer: {{ record.fname }} {{ record.lname }}</p>
+        <p>{{ record.phone }} | {{ record.email }}</p>
         <p>Coupon:  <strong>{{ record.customer_coupon }}</strong></p>
         <p><strong>Additional information:</strong> <br> {{  record.additional_information }}</p>
     </div>
