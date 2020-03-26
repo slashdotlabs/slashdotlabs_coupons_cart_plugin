@@ -1,43 +1,64 @@
-<style>
-    main {
-        margin: 0;
-        padding: 0;
-        display: flex;
-        flex-direction: column;
-        min-height: 50vh;
-        background: #fff;
-        color: #4a5568;
-        font-family: sans, sans-serif;
-    }
-
-    a {
-        text-decoration: none;
-    }
-
-    #content {
-        flex-grow: 1;
-        padding-top: 4rem;
-        margin: 0 auto;
-    }
-
-    #footer {
-        text-align: center;
-        padding: 1.75rem;
-        background: #edf2f7;
-    }
-
-
-</style>
 <main>
-<div id="content">
-    <strong>Hi {{ record.fname }} {{ record.lname }},</strong>
-    <p>
-        Thank you for choosing PromoKE as your discount shopping partner. <br> Here is your coupon:
-        <strong>{{ record.customer_coupon }}</strong>
-    </p>
-</div>
-<div id="footer">
-    <small> Copyright &copy; {{ year }} <a href="{{ copy_url|default('#') }}">{{ copy_name }}</a> {{ copy_address }}
-    </small>
-</div>
+    <div style="width:100%; background: #e6ad3c; font-family: Arial;">
+        <div style="width:100%;"><p style="color: #e6ad3c; opacity:0;">.</p>
+        </div>
+        <div style="width:100%;">
+            <table border="0">
+                <tbody>
+                <tr>
+                    <td style="width:10%; border: 0px;"><p style="text-align: center;"><br></p>
+                    </td>
+                    <td style="border: 0px;">
+                        <span style="text-align: left; font-size: 600%; color:#FFFFFF; line-height: 60%;">HOORAY!</span><br><br><span style="text-align: left; font-size: 15px; color:#FFFFFF; line-height: 180%;">Transaction Complete. We've received your payment.<br><strong style="font-size: 130%; line-height: 200%;">ORDER ID: {{ record.order_id}}</strong></span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="width:100%;"><p style="color: #e6ad3c; opacity:0;">.</p>
+        </div>
+    </div>
+    <div style="width:100%; background: #FFFFFF; font-family: Arial;">
+        <div style="width:100%;">
+            <table border="0">
+                <tbody>
+                <tr>
+                    <td style="width:6%; border: 0px;"></td>
+                    <td style="border: 0px;"><h1 style="text-align: left; color:#e6ad3c;">Hi {{ record.fname|title }},</h1>
+                        <div style="width:94%;">
+                            <p style="text-align: left; line-height: 180%;">Thank you for choosing PromoKE as your discount shopping partner. This right here is your online receipt confirming your purchase. We have received your payment and will be in touch with the next steps.</p>
+
+
+                            <p style="color: #FFFFFF; opacity:0; text-align: center;">.</p>
+                            <p style="text-align: center;">
+                                <img src="https://coupons.promo.ke/wp-content/uploads/2020/01/PromoBarCode.jpg" style="width: 100%;"><br>
+                                <strong style="text-align: center;font-size: 90%;">TRASNSACTION ID: {{ record.customer_coupon|upper }}</strong>
+                            </p>
+                            <p style="color: #FFFFFF; opacity:0; text-align: center;">.</p>
+
+
+                            <p style="text-align: left; line-height: 180%;">We'd also love to hear your opinion on your experience. Please take a moment and tell us how we're doing. To share your candid feedback, please send an email to
+                                <a href="mailto:feedback@promo.ke?Subject=My%20Candid%20Feedback%20About%20PROMO.KE" target="_top">feedback@promo.ke</a>
+                            </p>
+
+
+                            <p style="color: #FFFFFF; opacity:0; text-align: center;">.</p>
+                            <p style="text-align: center;">
+                                <img src="https://coupons.promo.ke/wp-content/uploads/2020/03/PromoLogoEmail.png" style="width: 300px;"><br>
+                                <a href="https://coupons.promo.ke/category/featured-deals/" target="_blank">Check out More Deals</a>&nbsp; .&nbsp;
+                                <a href="mailto:feedback@promo.ke?Subject=My%20Candid%20Feedback%20About%20PROMO.KE" target="_top">Email Your Feedback</a>
+                            </p>
+                            <p style="color: #FFFFFF; opacity:0; text-align: center;">.</p>
+                            <p></p>
+                            <p style="font-size: 15px;"></p>
+                            <div style="text-align: center; font-size: 13px;">
+                                <span style="font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, Oxygen-Sans, Ubuntu, Cantarell, &quot;Helvetica Neue&quot;, sans-serif;">This email was sent to the address you provided in your order. To unsubscribe, please send an email to&nbsp;</span><a href="support@promo.ke">support@promo.ke</a>.&nbsp;<span style="font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, Oxygen-Sans, Ubuntu, Cantarell, &quot;Helvetica Neue&quot;, sans-serif; font-size: inherit; font-weight: inherit;">Copyright ©&nbsp;</span><a href="http://medios.co.ke/" style="font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, Oxygen-Sans, Ubuntu, Cantarell, &quot;Helvetica Neue&quot;, sans-serif; font-size: inherit; font-weight: inherit;">MEDIOS LIMITED</a><span style="font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, Oxygen-Sans, Ubuntu, Cantarell, &quot;Helvetica Neue&quot;, sans-serif; font-size: inherit; font-weight: inherit;">&nbsp;Suite 108, Blue Violets Plaza, Kindaruma Road. Nairobi</span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </main>

@@ -204,8 +204,9 @@ class IpayGateway extends BaseController
     private function send_customer_email($record)
     {
         $customer_fullname = $record->fname . " " . $record->lname;
+        $customer_coupon = strtoupper($record->customer_coupon);
         $to = $record->email;
-        $subject = "$customer_fullname, your coupon {$record->customer_coupon} is ready";
+        $subject = "$customer_fullname, we've received your payment for {$customer_coupon}";
         $message = $this->twig->render("mail/customer_coupon.twig",
             [
                 "record" => $record,
